@@ -1,6 +1,7 @@
 package com.example.backendhome.service;
 
-import com.example.backendhome.models.User;
+import com.example.backendhome.entity.User;
+import com.example.backendhome.repository.ContractRepository;
 import com.example.backendhome.repository.UserRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,11 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 @Getter
 public class UserDetailsServiceImpl implements UserDetailsService {
-   private final UserRepository userRepository;
+
+    private final UserRepository userRepository;
+
+    private final ContractRepository contractRepository;
+
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

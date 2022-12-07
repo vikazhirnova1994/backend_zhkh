@@ -1,7 +1,7 @@
 package com.example.backendhome.repository;
 
-import com.example.backendhome.models.ERole;
-import com.example.backendhome.models.Role;
+import com.example.backendhome.entity.ERole;
+import com.example.backendhome.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

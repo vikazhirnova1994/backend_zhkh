@@ -1,4 +1,4 @@
-package com.example.backendhome.models;
+package com.example.backendhome.entity;
 
 
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.backendhome.models;
+package com.example.backendhome.entity;
 
 
 import lombok.AllArgsConstructor;
@@ -13,12 +13,12 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.UUID;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "db_roles")
 @Getter
 @Setter
 @Builder
@@ -27,8 +27,9 @@ import javax.persistence.Table;
 @ToString
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(generator = "UUID")
+    @Column(name = "id")
+    private UUID id;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20)

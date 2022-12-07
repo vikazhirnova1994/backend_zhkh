@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Set;
@@ -26,10 +25,8 @@ public class SignupRequest {
     @Size(min = 3, max = 20)
     private String username;
 
-    @NotBlank
-    @Size(max = 50)
-    @Email
-    private String email;
+    @Size(min = 10, max = 20)
+    private String contractNumber;
 
     @JsonIgnore
     private Set<String> role;

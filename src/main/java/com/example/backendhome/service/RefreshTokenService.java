@@ -1,6 +1,6 @@
 package com.example.backendhome.service;
 
-import com.example.backendhome.models.RefreshToken;
+import com.example.backendhome.entity.RefreshToken;
 import com.example.backendhome.repository.RefreshTokenRepository;
 import com.example.backendhome.repository.UserRepository;
 import com.example.backendhome.util.TokenRefreshException;
@@ -27,7 +27,8 @@ public class RefreshTokenService {
         return refreshTokenRepository.findByToken(token);
     }
 
-    public RefreshToken createRefreshToken(Long userId) {
+    @Transactional
+    public RefreshToken createRefreshToken(UUID userId) {
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setUser(userRepository.findById(userId).get());
         refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
@@ -46,7 +47,7 @@ public class RefreshTokenService {
         return token;
     }
     @Transactional
-    public int deleteByUserId(Long userId) {
+    public int deleteByUserId(UUID userId) {
         return refreshTokenRepository.deleteByUser(userRepository.findById(userId).get());
     }
 }

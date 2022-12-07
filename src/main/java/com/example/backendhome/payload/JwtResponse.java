@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Builder
@@ -17,11 +18,18 @@ import java.util.List;
 @Setter(AccessLevel.PUBLIC)
 @ToString
 public class JwtResponse {
+
     private String token;
+
     private String type = "Bearer";
+
     private String refreshToken;
-    private Long id;
+
+    private UUID id;
+
     private String username;
-    private String email;
+
+    private String contractNumber;
+
     private List<String> roles;
 }
