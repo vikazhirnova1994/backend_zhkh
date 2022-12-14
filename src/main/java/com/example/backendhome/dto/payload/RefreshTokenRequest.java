@@ -1,6 +1,5 @@
-package com.example.backendhome.payload;
+package com.example.backendhome.dto.payload;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,11 +10,11 @@ import lombok.ToString;
 import javax.validation.constraints.NotBlank;
 
 @Getter
+@Setter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter(AccessLevel.PUBLIC)
-@ToString
 public class RefreshTokenRequest {
     @NotBlank
     private String refreshToken;

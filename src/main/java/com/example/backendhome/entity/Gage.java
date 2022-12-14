@@ -1,5 +1,6 @@
 package com.example.backendhome.entity;
 
+import com.example.backendhome.entity.enums.TypeGage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,15 +23,15 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Entity
 @Table(name = "gages", uniqueConstraints =
         @UniqueConstraint(columnNames = "serialNumber") )
-@Builder
+@Entity
 @Getter
 @Setter
+@Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Gage {
 
     @Id

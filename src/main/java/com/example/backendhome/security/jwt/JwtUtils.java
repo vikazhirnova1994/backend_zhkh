@@ -2,6 +2,7 @@ package com.example.backendhome.security.jwt;
 
 import com.example.backendhome.entity.User;
 import com.example.backendhome.service.UserDetailsImpl;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -11,6 +12,8 @@ import io.jsonwebtoken.UnsupportedJwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -36,6 +39,9 @@ public class JwtUtils {
     @Value("${app.jwtRefreshCookieName}")
     private String jwtRefreshCookie;
 
+    private static final String BEARER = "Bearer ";
+
+
     public String generateJwtToken(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
         return Jwts.builder().setSubject((userPrincipal.getUsername())).setIssuedAt(new Date())
@@ -44,9 +50,21 @@ public class JwtUtils {
                 .compact();
     }
 
-    public ResponseCookie generateJwtCookie(UserDetailsImpl userPrincipal) {
-        String jwt = generateTokenFromUsername(userPrincipal.getUsername());
-        return generateCookie(jwtCookie, jwt, "/api");
+    public String getToken(HttpServletRequest req){
+        String authHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
+        if (authHeader.startsWith(BEARER)) {
+            return authHeader.substring(7);
+
+        }
+        return null;
+    }
+
+    public String getUsernameFormToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(jwtSecret).parseClaimsJws(token)
+              //  .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
 
     public ResponseCookie generateJwtCookie(User user) {

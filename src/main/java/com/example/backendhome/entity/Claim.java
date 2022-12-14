@@ -1,5 +1,6 @@
 package com.example.backendhome.entity;
 
+import com.example.backendhome.entity.enums.ClaimStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,20 +22,21 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
 @Table(name = "claims")
-@Builder
+@Entity
 @Getter
 @Setter
+@Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Claim {
 
     @Id
     @GeneratedValue(generator = "UUID")
     @Column(name = "id")
     private UUID id;
+
 
     @ToString.Exclude
     @OneToOne(fetch = FetchType.LAZY)
@@ -62,5 +64,4 @@ public class Claim {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 30)
     private ClaimStatus status;
-
 }

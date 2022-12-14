@@ -1,4 +1,4 @@
-package com.example.backendhome.entity;
+package com.example.backendhome.entity.enums;
 
 public enum TypeGage {
     THERMAL_ENERGY_METER,

@@ -3,7 +3,7 @@ package com.example.backendhome.service;
 import com.example.backendhome.entity.RefreshToken;
 import com.example.backendhome.repository.RefreshTokenRepository;
 import com.example.backendhome.repository.UserRepository;
-import com.example.backendhome.util.TokenRefreshException;
+import com.example.backendhome.util.exception.TokenRefreshException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -34,20 +34,20 @@ public class RefreshTokenService {
         refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
         refreshToken.setToken(UUID.randomUUID().toString());
 
-        refreshToken = refreshTokenRepository.save(refreshToken);
-        return refreshToken;
+        return refreshTokenRepository.save(refreshToken);
     }
 
+    @Transactional
     public RefreshToken verifyExpiration(RefreshToken token) {
         if (token.getExpiryDate().compareTo(Instant.now()) < 0) {
             refreshTokenRepository.delete(token);
             throw new TokenRefreshException(token.getToken(), "Refresh token was expired. Please make a new signin request");
         }
-
         return token;
     }
+
     @Transactional
-    public int deleteByUserId(UUID userId) {
+    public UUID deleteByUserId(UUID userId) {
         return refreshTokenRepository.deleteByUser(userRepository.findById(userId).get());
     }
 }

@@ -5,15 +5,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class ErrorMessage {
-    private int statusCode;
-    private Date timestamp;
+    private  String url;
+    private  ErrorType type;
     private String message;
-    private String description;
+    private LocalDateTime timestamp;
 }

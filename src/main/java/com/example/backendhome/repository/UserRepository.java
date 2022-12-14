@@ -14,7 +14,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = """
             SELECT u FROM User u
-            JOIN FETCH u.contract
+            JOIN FETCH u.contract c
+            JOIN FETCH c.flat f
             where u.username = :username
             """)
     Optional<User> findByUsername(String username);

@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,10 +16,20 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class FlatService {
+
     private final FlatRepository flatRepository;
 
     public List<Flat> getFlats() {
         return flatRepository.findAll();
+    }
+
+    public Flat getFlat(UUID id) {
+        return flatRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Flat not found by id : " + id));
+    }
+
+    @Transactional
+    public Flat createFlat(Flat flat) {
+        return flatRepository.save(flat);
     }
 
     @Transactional

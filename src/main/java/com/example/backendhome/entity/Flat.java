@@ -17,14 +17,14 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@Entity
 @Table(name = "flats")
-@Builder
+@Entity
 @Getter
 @Setter
+@Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Flat {
     @Id
     @GeneratedValue(generator = "UUID")

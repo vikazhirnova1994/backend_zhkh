@@ -1,6 +1,7 @@
 package com.example.backendhome.entity;
 
 
+import com.example.backendhome.entity.enums.ERole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,14 +18,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.UUID;
 
-@Entity
 @Table(name = "db_roles")
+@Entity
 @Getter
 @Setter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Role {
     @Id
     @GeneratedValue(generator = "UUID")

@@ -1,6 +1,5 @@
-package com.example.backendhome.payload;
+package com.example.backendhome.dto.payload;
 
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,11 +11,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Getter
+@Setter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter(AccessLevel.PUBLIC)
-@ToString
 public class JwtResponse {
 
     private String token;

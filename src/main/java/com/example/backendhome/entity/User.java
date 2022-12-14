@@ -17,16 +17,16 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+@Table(name = "db_users", uniqueConstraints =
+        { @UniqueConstraint(columnNames = "username")})
 @Entity
-@Table(
-        name = "db_users")
-        //uniqueConstraints = { @UniqueConstraint(columnNames = "username")
 @Getter
 @Setter
 @Builder

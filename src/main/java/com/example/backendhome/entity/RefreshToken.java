@@ -18,14 +18,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.time.Instant;
 
-@Entity
 @Table(name = "refreshtoken")
+@Entity
 @Getter
 @Setter
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class RefreshToken {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

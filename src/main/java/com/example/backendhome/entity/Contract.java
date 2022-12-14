@@ -23,15 +23,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-
-@Entity
 @Table(name = "contract")
-@Builder
+@Entity
 @Getter
 @Setter
+@Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class Contract {
 
     @Id

@@ -1,8 +1,7 @@
 package com.example.backendhome.service;
 
-import com.example.backendhome.entity.ERole;
 import com.example.backendhome.entity.Role;
-import com.example.backendhome.repository.RoleRepository;
+import com.example.backendhome.entity.enums.ERole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +13,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class RoleCreater {
 
-    private final RoleRepository roleRepository;
+    private final RoleService roleService;
 
     private final static String CONTRACT_FOR_ADMIN = "00000000000000";
     private final static String CONTRACT_FOR_MODERATOR = "10000000000000";
@@ -23,10 +22,8 @@ public class RoleCreater {
     @Transactional
     public Set<Role> getRole(String contractNumber) {
         Set<Role> roles = new HashSet<>();
-        ERole eRole = checkContractNumber(contractNumber);
-        Role userRole = roleRepository.findByName(eRole)
-                .orElseThrow(() -> new RuntimeException("Error, Role USER is not found"));
-        roles.add(userRole);
+        roles.add(roleService.findRole(
+                checkContractNumber(contractNumber)));
        return roles;
     }
 

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,15 +20,16 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Entity
 @Table(name = "gages_data")
-@Builder
+@Entity
 @Getter
 @Setter
+@Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 public class GageData {
+
     @Id
     @GeneratedValue(generator = "UUID")
     @Column(name = "id")
@@ -53,8 +55,11 @@ public class GageData {
 
     @NotNull
     @Column(name = "departure_date")
+    @CreatedDate
     private LocalDate departureDate;
 
     @Column(name = "process_date")
     private LocalDate processDate;
+
+    //добавить статус
 }
