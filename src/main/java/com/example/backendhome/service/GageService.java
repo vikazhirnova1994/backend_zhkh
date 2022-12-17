@@ -2,8 +2,10 @@ package com.example.backendhome.service;
 
 import com.example.backendhome.entity.Flat;
 import com.example.backendhome.entity.Gage;
+import com.example.backendhome.entity.User;
 import com.example.backendhome.entity.enums.TypeGage;
 import com.example.backendhome.repository.GageRepository;
+import com.example.backendhome.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,10 +22,18 @@ import java.util.UUID;
 public class GageService {
 
     private final GageRepository gageRepository;
+    private final UserService userService;
 
     public List<Gage> getGages() {
         return gageRepository.findGagesWithFlat();
     }
+
+    public List<Gage> getUserGages() {
+        User user = userService.getUser(SecurityUtil.getUserId());
+        UUID flatId = user.getContract().getFlat().getId();
+        return gageRepository.findGagesWithFlatByFlatId(flatId);
+    }
+
 
     public Gage getGage(UUID id) {
         return gageRepository.findById(id)

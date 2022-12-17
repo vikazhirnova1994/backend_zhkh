@@ -47,7 +47,7 @@ public class RefreshTokenService {
     }
 
     @Transactional
-    public UUID deleteByUserId(UUID userId) {
-        return refreshTokenRepository.deleteByUser(userRepository.findById(userId).get());
+    public void deleteByUserId(UUID userId) {
+        refreshTokenRepository.deleteByUserId(userId);
     }
 }

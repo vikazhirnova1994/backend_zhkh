@@ -1,0 +1,418 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1671127855431-1
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createSequence:
+            incrementBy: 1
+            sequenceName: hibernate_sequence
+            startValue: 1
+  - changeSet:
+      id: 1671127855431-2
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_claims
+                  name: id
+                  type: UUID
+              - column:
+                  name: user_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: description
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: executor_identification_number
+                  type: VARCHAR(10)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: creation_date
+                  type: DATETIME
+              - column:
+                  name: completion_date
+                  type: DATETIME
+              - column:
+                  constraints:
+                    nullable: false
+                  name: status
+                  type: VARCHAR(30)
+            tableName: claims
+  - changeSet:
+      id: 1671127855431-3
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_contract
+                  name: id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: contract_number
+                  type: VARCHAR(20)
+              - column:
+                  name: flat_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: signed_date
+                  type: DATE
+            tableName: contract
+  - changeSet:
+      id: 1671127855431-4
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_db_roles
+                  name: id
+                  type: UUID
+              - column:
+                  name: name
+                  type: VARCHAR(20)
+            tableName: db_roles
+  - changeSet:
+      id: 1671127855431-5
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_db_users
+                  name: id
+                  type: UUID
+              - column:
+                  name: username
+                  type: VARCHAR(20)
+              - column:
+                  name: password
+                  type: VARCHAR(120)
+              - column:
+                  name: contract_id
+                  type: UUID
+            tableName: db_users
+  - changeSet:
+      id: 1671127855431-6
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_flats
+                  name: id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: city
+                  type: VARCHAR(20)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: street
+                  type: VARCHAR(20)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: house_number
+                  type: VARCHAR(20)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: entrance
+                  type: INT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: flat_number
+                  type: INT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: area
+                  type: DECIMAL(9, 2)
+            tableName: flats
+  - changeSet:
+      id: 1671127855431-7
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_gages
+                  name: id
+                  type: UUID
+              - column:
+                  name: flat_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: serial_number
+                  type: VARCHAR(20)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: type_gage
+                  type: VARCHAR(30)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: manufacturer
+                  type: VARCHAR(20)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: installation_date
+                  type: DATE
+              - column:
+                  name: disposal_date
+                  type: DATE
+            tableName: gages
+  - changeSet:
+      id: 1671127855431-8
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_gages_data
+                  name: id
+                  type: UUID
+              - column:
+                  name: gage_id
+                  type: UUID
+              - column:
+                  name: user_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: data
+                  type: VARCHAR(20)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: departure_date
+                  type: DATE
+              - column:
+                  name: process_date
+                  type: DATE
+            tableName: gages_data
+  - changeSet:
+      id: 1671127855431-9
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_refreshtoken
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: user_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: token
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: expiry_date
+                  type: DATETIME
+            tableName: refreshtoken
+  - changeSet:
+      id: 1671127855431-10
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_user_roles
+                  name: role_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_user_roles
+                  name: user_id
+                  type: UUID
+            tableName: user_roles
+  - changeSet:
+      id: 1671127855431-11
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: serial_number
+            constraintName: uc_6d43caa6819ef780426d946a4
+            tableName: gages
+  - changeSet:
+      id: 1671127855431-12
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: username
+            constraintName: uc_7a5f868b821f859da0fea4a33
+            tableName: db_users
+  - changeSet:
+      id: 1671127855431-13
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: token
+            constraintName: uc_refreshtoken_token
+            tableName: refreshtoken
+  - changeSet:
+      id: 1671127855431-14
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: claims
+            constraintName: FK_CLAIMS_ON_USER
+            referencedColumnNames: id
+            referencedTableName: db_users
+  - changeSet:
+      id: 1671127855431-15
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: flat_id
+            baseTableName: contract
+            constraintName: FK_CONTRACT_ON_FLAT
+            referencedColumnNames: id
+            referencedTableName: flats
+  - changeSet:
+      id: 1671127855431-16
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: contract_id
+            baseTableName: db_users
+            constraintName: FK_DB_USERS_ON_CONTRACT
+            referencedColumnNames: id
+            referencedTableName: contract
+  - changeSet:
+      id: 1671127855431-17
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: gage_id
+            baseTableName: gages_data
+            constraintName: FK_GAGES_DATA_ON_GAGE
+            referencedColumnNames: id
+            referencedTableName: gages
+  - changeSet:
+      id: 1671127855431-18
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: gages_data
+            constraintName: FK_GAGES_DATA_ON_USER
+            referencedColumnNames: id
+            referencedTableName: db_users
+  - changeSet:
+      id: 1671127855431-19
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: flat_id
+            baseTableName: gages
+            constraintName: FK_GAGES_ON_FLAT
+            referencedColumnNames: id
+            referencedTableName: flats
+  - changeSet:
+      id: 1671127855431-20
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: refreshtoken
+            constraintName: FK_REFRESHTOKEN_ON_USER
+            referencedColumnNames: id
+            referencedTableName: db_users
+  - changeSet:
+      id: 1671127855431-21
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: role_id
+            baseTableName: user_roles
+            constraintName: fk_userol_on_role
+            referencedColumnNames: id
+            referencedTableName: db_roles
+  - changeSet:
+      id: 1671127855431-22
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: user_roles
+            constraintName: fk_userol_on_user
+            referencedColumnNames: id
+            referencedTableName: db_users
+

@@ -15,10 +15,17 @@ import java.util.UUID;
 public interface GageRepository extends JpaRepository<Gage, UUID> {
 
     @Query(value = """
-    select g from Gage g
-    left join fetch g.flat f
-    """)
+            select g from Gage g
+            left join fetch g.flat f
+            """)
     List<Gage> findGagesWithFlat();
 
     Optional<Gage> findByTypeGageAndFlat(TypeGage typeGage, Flat flat);
+
+    @Query(value = """
+            select g from Gage g
+            left join fetch g.flat f
+            where f.id = :flatId
+            """)
+    List<Gage> findGagesWithFlatByFlatId(UUID flatId);
 }

@@ -10,6 +10,13 @@ import java.util.UUID;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+
+    @Query(value = """
+            SELECT u FROM User u
+            JOIN FETCH u.contract c
+            JOIN FETCH c.flat f
+            where u.id = :id
+            """)
     Optional<User> findById(UUID id);
 
     @Query(value = """

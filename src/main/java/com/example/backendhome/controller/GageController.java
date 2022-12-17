@@ -32,6 +32,11 @@ public class GageController {
         return ResponseEntity.ok(gageService.getGages());
     }
 
+    @GetMapping("/user-gages")
+    public ResponseEntity<List<Gage>> getUserGages(){
+        return ResponseEntity.ok(gageService.getUserGages());
+    }
+
     @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/")
     public ResponseEntity<Gage> createFlat(@Valid GageRequestDto gageDto){
