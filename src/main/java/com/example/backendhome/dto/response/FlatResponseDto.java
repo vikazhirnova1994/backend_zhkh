@@ -1,4 +1,4 @@
-package com.example.backendhome.dto.request;
+package com.example.backendhome.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,10 +7,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
 
+/**
+ * @author Victoria Zhirnova
+ * @project backendHome
+ */
 
 @Getter
 @Setter
@@ -18,16 +19,11 @@ import java.math.BigDecimal;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class FlatRequestDto {
-
-
+public class FlatResponseDto {
+    private String id;
     private String city;
-
     private String street;
-
-    private String houseNumber;
-
+    private String  houseNumber;
     private Integer entrance;
-
     private Integer flatNumber;
 }

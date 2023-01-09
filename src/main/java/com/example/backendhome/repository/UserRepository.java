@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,6 +19,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
             where u.id = :id
             """)
     Optional<User> findById(UUID id);
+
+    @Query(value = """
+            SELECT u FROM User u
+            JOIN FETCH u.contract c
+            """)
+    List<User> findAllUsers();
 
     @Query(value = """
             SELECT u FROM User u

@@ -6,6 +6,7 @@ import com.example.backendhome.entity.GageData;
 import com.example.backendhome.entity.User;
 import com.example.backendhome.entity.enums.TypeGage;
 import com.example.backendhome.repository.GageDataRepository;
+import com.example.backendhome.service.generator.LocalDateGenerator;
 import com.example.backendhome.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,13 +32,15 @@ public class GageDataService {
     private final GageDataRepository gageDataRepository;
     private final GageService gageService;
     private final UserService userService;
+    private final LocalDateGenerator localDateGenerator;
 
     public List<GageData> getGagesData() {
         return gageDataRepository.findAll();
     }
 
     public GageData getGageData(UUID id) {
-        return gageDataRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("GageData not found by id : " + id));
+        return gageDataRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("GageData not found by id : " + id));
     }
 
     @Transactional
@@ -62,19 +65,11 @@ public class GageDataService {
         gageDataRepository.deleteById(id);
     }
 
-
-    /*public List<GageData> getUserGagesData() {
-        User user = userService.getUser(SecurityUtil.getUserId());
-
-        return gageDataRepository.findGagesDataByUserId(user.getId());
-    }*/
-
     public Slice<GageData> getUserGagesDataPage(String serialNumber, int page, int size) {
         log.info("Fetching user gages data for page {} of size {}", page, size);
         User user = userService.getUser(SecurityUtil.getUserId());
         Pageable of = PageRequest.of(page, size);
         return gageDataRepository.findGagesData(user.getId(), serialNumber, of);
-       // return gageDataRepository.findGagesData(user.getId(), of);
     }
 
 
@@ -86,24 +81,33 @@ public class GageDataService {
     public List<GageData> getLastUserGagesData() {
         User user = userService.getUser(SecurityUtil.getUserId());
 
-        LocalDate now = LocalDate.now();
-        LocalDate from = LocalDate.of(now.getYear(), (now.getMonth().getValue() - 1), 20);
-        LocalDate to = LocalDate.of(now.getYear(), (now.getMonth().getValue() - 1), 25);
+        UUID userId = user.getId();
+        LocalDate from = localDateGenerator.from();
+        LocalDate to = localDateGenerator.to();
 
-        if (now.getDayOfMonth() < 25 && now.getDayOfMonth() > 1) {
-            from = LocalDate.of(now.getYear(), (now.getMonth().getValue() - 1), 20);
-            to = LocalDate.of(now.getYear(), (now.getMonth().getValue() - 1), 25);
-        }
-
-        if (now.getDayOfMonth() >= 25 && now.getDayOfMonth() <= now.getMonth().maxLength()) {
-            from = LocalDate.of(now.getYear(), (now.getMonth().getValue()), 20);
-            to = LocalDate.of(now.getYear(), (now.getMonth().getValue()), 25);
-        }
-
-        return gageDataRepository.findLastGagesDataByUserId(user.getId(), from, now).stream()
+        return gageDataRepository.findLastGagesDataByUserId(userId, from, to).stream()
                 .sorted(Comparator.comparing(GageData::getDepartureDate).reversed())
-                .limit(3)
+                .limit(5)
                 .toList();
+    }
+
+    public Boolean canAddUserGagesData() {
+        User user = userService.getUser(SecurityUtil.getUserId());
+        UUID userId = user.getId();
+
+        LocalDate now = LocalDate.now();
+
+        if (now.getDayOfMonth() >= 20 && now.getDayOfMonth() <= 25) {
+            LocalDate from = LocalDate.of(now.getYear(), now.getMonth().getValue(), 20);
+            LocalDate to = LocalDate.of(now.getYear(), now.getMonth().getValue(), 25);
+
+            return gageDataRepository.findLastGagesDataByUserId(userId, from, to).stream()
+                    .sorted(Comparator.comparing(GageData::getDepartureDate).reversed())
+                    .limit(5)
+                    .toList().size() == 0;
+        }
+
+        return false;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)

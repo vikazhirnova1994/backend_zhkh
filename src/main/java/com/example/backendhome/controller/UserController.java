@@ -27,26 +27,26 @@ public class UserController {
     private final UserMapper userMapper;
     private final UserService userService;
 
-    @CrossOrigin(origins = "http://localhost:4200")
+   // @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/")
-    public ResponseEntity<List<User>> getFlats(){
+    public ResponseEntity<List<User>> getUsers(){
         return ResponseEntity.ok(userService.getUsers());
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping("/")
+   // @CrossOrigin(origins = "http://localhost:4200")
+   /* @PostMapping("/")
     public ResponseEntity<User> createFlat(@Valid UserRequestDto userDto){
         return ResponseEntity.ok(userService.createUser(
                 userMapper.toUser(userDto), userDto.getRole()));
-    }
+    }*/
 
-    @CrossOrigin(origins = "http://localhost:4200")
+  //  @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/{id}")
     public ResponseEntity<User> getFlat(@PathVariable UUID id){
         return ResponseEntity.ok(userService.getUser(id));
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
+  //  @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteFlat(@PathVariable UUID id){
         userService.deleteUser(id);

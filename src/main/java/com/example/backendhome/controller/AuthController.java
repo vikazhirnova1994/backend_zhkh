@@ -37,7 +37,6 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
         registerService.registerUser(userMapper.toUser(signupRequest),
                 signupRequest.getContractNumber());
-
         return ResponseEntity.ok(new MessageResponse("User CREATED"));
     }
 

@@ -44,15 +44,6 @@ public class GageDataController {
         return gageDataService.getGagesData();
     }
 
- /*   @GetMapping("/user")
-    @ResponseStatus(HttpStatus.OK)
-    public List<GageDataResponseDto> getUserGagesData() {
-        return gageDataService.getUserGagesData()
-                .stream()
-                .map(gageDataMapper::toGageDataResponseDto)
-                .toList();
-    }*/
-
     @GetMapping("/user")
     public ResponseEntity<HttpResponse> getUserGagesDataPageable(
             @RequestParam Optional<String> serialNumber,
@@ -76,11 +67,11 @@ public class GageDataController {
     @PostMapping("/user/new")
     @ResponseStatus(HttpStatus.CREATED)
     public void createNewUserGagesData(@Valid @RequestBody NewUserGagesDataDto newUserGagesData) {
-        gageDataService.createNewUserGagesData(newUserGagesData.getElectricityDay(), TypeGage.ELECTRICAL_ENERGY_METER);
-        gageDataService.createNewUserGagesData(newUserGagesData.getElectricityNight(), TypeGage.ELECTRICAL_ENERGY_METER);
-        gageDataService.createNewUserGagesData(newUserGagesData.getWaterHot(), TypeGage.COLD_WATER_METER);
-        gageDataService.createNewUserGagesData(newUserGagesData.getWaterCool(), TypeGage.COLD_WATER_METER);
-        gageDataService.createNewUserGagesData(newUserGagesData.getEnergy(), TypeGage.THERMAL_ENERGY_METER);
+        gageDataService.createNewUserGagesData(newUserGagesData.getElectricityDay(), TypeGage.ELECTRICAL_ENERGY);
+        gageDataService.createNewUserGagesData(newUserGagesData.getElectricityNight(), TypeGage.ELECTRICAL_ENERGY);
+        gageDataService.createNewUserGagesData(newUserGagesData.getWaterHot(), TypeGage.COLD_WATER);
+        gageDataService.createNewUserGagesData(newUserGagesData.getWaterCool(), TypeGage.COLD_WATER);
+        gageDataService.createNewUserGagesData(newUserGagesData.getEnergy(), TypeGage.THERMAL_ENERGY);
     }
 
     @GetMapping("/user/{gageId}")
@@ -90,6 +81,10 @@ public class GageDataController {
                 .stream()
                 .map(gageDataMapper::toGageDataResponseDto)
                 .toList();
+    }
+    @GetMapping("/user/can-add")
+    public Boolean canAddUserGagesData(){
+        return gageDataService.canAddUserGagesData();
     }
 
     @GetMapping("/user/last")
@@ -119,6 +114,6 @@ public class GageDataController {
     @ResponseStatus(HttpStatus.OK)
     public String deleteFlat(@PathVariable UUID id) {
         gageDataService.deleteGageData(id);
-        return "Successfuly deleted";
+        return "Successfully deleted";
     }
 }

@@ -7,10 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
-
+/**
+ * @author Victoria Zhirnova
+ * @project backendHome
+ */
 
 @Getter
 @Setter
@@ -18,16 +18,12 @@ import java.math.BigDecimal;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class FlatRequestDto {
-
-
+public class FlatUpdateRequestDto {
     private String city;
-
+    private String entrance;
+    private String flatNumber;
+    private String  houseNumber;
+    private String id;
     private String street;
 
-    private String houseNumber;
-
-    private Integer entrance;
-
-    private Integer flatNumber;
 }

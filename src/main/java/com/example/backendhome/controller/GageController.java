@@ -37,7 +37,6 @@ public class GageController {
         return ResponseEntity.ok(gageService.getUserGages());
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/")
     public ResponseEntity<Gage> createFlat(@Valid GageRequestDto gageDto){
         return ResponseEntity.ok(
@@ -46,13 +45,11 @@ public class GageController {
     }
 
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/{id}")
     public ResponseEntity<Gage> getFlat(@PathVariable UUID id){
         return ResponseEntity.ok(gageService.getGage(id));
     }
 
-    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteFlat(@PathVariable UUID id){
         gageService.deleteGage(id);

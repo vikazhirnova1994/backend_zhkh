@@ -49,7 +49,7 @@ public class UserService {
     }
 
     public List<User> getUsers() {
-        return userRepository.findAll();
+        return userRepository.findAllUsers();
     }
 
     public void deleteUser(UUID id) {

@@ -1,9 +1,16 @@
 package com.example.backendhome.service;
 
+import com.example.backendhome.dto.request.FlatRequestDto;
+import com.example.backendhome.dto.request.FlatUpdateRequestDto;
 import com.example.backendhome.entity.Flat;
+import com.example.backendhome.entity.GageData;
 import com.example.backendhome.repository.FlatRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.jar.asm.commons.Remapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,5 +42,21 @@ public class FlatService {
     @Transactional
     public void deleteFlat(UUID id) {
         flatRepository.deleteById(id);
+    }
+
+    public Slice<Flat> getFlatsPage(int page, int size) {
+        Pageable of = PageRequest.of(page, size);
+        return flatRepository.findFlat(of);
+    }
+    @Transactional
+    public Flat saveFlat(UUID id, FlatUpdateRequestDto flatDto) {
+        Flat flat = flatRepository.findById(id).orElseThrow();
+        flat.setCity(flatDto.getCity());
+        flat.setStreet(flatDto.getStreet());
+        flat.setHouseNumber(flatDto.getHouseNumber());
+                flat.setEntrance(Integer.valueOf(flatDto.getEntrance()));
+        flat.setFlatNumber(Integer.valueOf(flatDto.getFlatNumber()));
+        flatRepository.save(flat);
+        return flat;
     }
 }

@@ -50,9 +50,4 @@ public class Flat {
     @NotNull
     @Column(name = "flatNumber", length = 20)
     private Integer flatNumber;
-
-    @NotNull
-    @Digits(integer = 7, fraction = 2)
-    @Column(name = "area", precision = 9, scale = 2)
-    private BigDecimal area;
 }
