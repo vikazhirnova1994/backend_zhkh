@@ -10,8 +10,8 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface FlatMapper {
     Flat toFlat(FlatRequestDto flatDto);
-    @Mapping(target = "id", source = "flat.id")
 
+    @Mapping(target = "id", source = "flat.id")
     FlatResponseDto toFlatResponseDto(Flat flat);
 
     @Mapping(target = "address", source = "address")

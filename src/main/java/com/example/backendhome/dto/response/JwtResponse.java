@@ -1,4 +1,4 @@
-package com.example.backendhome.dto.payload;
+package com.example.backendhome.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,18 +17,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JwtResponse {
-
     private String token;
-
     private String type = "Bearer";
-
     private String refreshToken;
-
     private UUID id;
-
     private String username;
-
     private String contractNumber;
-
     private List<String> roles;
 }

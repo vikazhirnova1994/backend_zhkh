@@ -21,7 +21,6 @@ public class UserService {
 
     private final RoleService roleService;
     private final UserRepository userRepository;
-
     public Boolean isExistUser(String username) {
        return userRepository.existsByUsername(username);
     }

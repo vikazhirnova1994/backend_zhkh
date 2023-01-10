@@ -27,7 +27,7 @@ public interface GageDataRepository extends JpaRepository<GageData, UUID> {
             JOIN FETCH gd.gage g
             JOIN FETCH gd.user u
             where u.id = :userId
-            and gd.departureDate between :from and :to
+            and gd.departureDate between :from and :to and g.disposalDate is null
             """)
     List<GageData> findLastGagesDataByUserId(UUID userId, LocalDate from, LocalDate to);
 
@@ -38,15 +38,6 @@ public interface GageDataRepository extends JpaRepository<GageData, UUID> {
             where u.id = :userId and g.id = :gageId
             """)
     List<GageData> findGagesDataByUserIdAndGageId(UUID userId, UUID gageId);
-
- /*   @Query(value = """
-            SELECT gd FROM GageData gd
-            JOIN FETCH gd.gage g
-            JOIN FETCH gd.user u
-            where u.id = :userId
-            """)
-    List<GageData> findGagesDataByUserId(UUID userId);
-*/
 
     @Query(value =
            """

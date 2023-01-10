@@ -1,4 +1,4 @@
-package com.example.backendhome.dto.payload;
+package com.example.backendhome.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +15,9 @@ import javax.validation.constraints.NotBlank;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class RefreshTokenRequest {
+public class LoginRequest {
     @NotBlank
-    private String refreshToken;
+    private String username;
+    @NotBlank
+    private String password;
 }

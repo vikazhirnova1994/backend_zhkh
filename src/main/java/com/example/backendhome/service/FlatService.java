@@ -33,22 +33,21 @@ public class FlatService {
         return flatRepository.findAll();
     }
 
-    public Flat getFlat(String city, String street, String houseNumber, Integer entrance, Integer flatNumber ) {
-
+    public Flat getFlat(String city, String street, String houseNumber, Integer entrance, Integer flatNumber) {
         return flatRepository.findByCityAndStreetAndHouseNumberAndEntranceAndFlatNumber(
-                city,
-                street,
-                houseNumber,
-                entrance,
-                flatNumber
-                ).orElseThrow(() -> new EntityNotFoundException("Flat not found"));
+                        city,
+                        street,
+                        houseNumber,
+                        entrance,
+                        flatNumber)
+                .orElseThrow(() -> new EntityNotFoundException("Flat not found"));
     }
 
     public Flat getFlat(UUID id) {
         return flatRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Flat not found by id : " + id));
     }
 
-   public Slice<Flat> getFlatsPage(int page, int size) {
+    public Slice<Flat> getFlatsPage(int page, int size) {
         Pageable of = PageRequest.of(page, size);
         return flatRepository.findFlat(of);
     }
@@ -67,7 +66,7 @@ public class FlatService {
         flat.setCity(flatDto.getCity());
         flat.setStreet(flatDto.getStreet());
         flat.setHouseNumber(flatDto.getHouseNumber());
-                flat.setEntrance(Integer.valueOf(flatDto.getEntrance()));
+        flat.setEntrance(Integer.valueOf(flatDto.getEntrance()));
         flat.setFlatNumber(Integer.valueOf(flatDto.getFlatNumber()));
         flatRepository.save(flat);
         return flat;

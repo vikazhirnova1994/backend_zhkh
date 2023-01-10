@@ -15,8 +15,6 @@ import java.util.List;
 public interface GageMapper {
     Gage toGage(GageRequestDto gageDto);
 
-    //Gage toGage(GageRequestWithAddressDto gageDto);
-
     @Mapping(target = "address", expression = "java(gage.getFlat().toString())")
     GageResponseDto toGageResponseDto(Gage gage);
 

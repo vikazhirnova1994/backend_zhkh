@@ -20,22 +20,16 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GageRequestDto {
-
     private Flat flat;
-
     @NotNull
     @Size(max = 20)
     private String serialNumber;
-
     @NotNull
     private TypeGage typeGage;
-
     @NotNull
     @Size(max = 20)
     private String manufacturer;
-
     @NotNull
     private LocalDate installationDate;
-
     private LocalDate disposalDate;
 }

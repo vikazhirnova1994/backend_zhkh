@@ -19,47 +19,6 @@ databaseChangeLog:
                   constraints:
                     nullable: false
                     primaryKey: true
-                    primaryKeyName: pk_claims
-                  name: id
-                  type: UUID
-              - column:
-                  name: user_id
-                  type: UUID
-              - column:
-                  constraints:
-                    nullable: false
-                  name: description
-                  type: VARCHAR(255)
-              - column:
-                  constraints:
-                    nullable: false
-                  name: executor_identification_number
-                  type: VARCHAR(10)
-              - column:
-                  constraints:
-                    nullable: false
-                  name: creation_date
-                  type: DATETIME
-              - column:
-                  name: completion_date
-                  type: DATETIME
-              - column:
-                  constraints:
-                    nullable: false
-                  name: status
-                  type: VARCHAR(30)
-            tableName: claims
-  - changeSet:
-      id: 1671127855431-3
-      author: vikaz (generated)
-      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      changes:
-        - createTable:
-            columns:
-              - column:
-                  constraints:
-                    nullable: false
-                    primaryKey: true
                     primaryKeyName: pk_contract
                   name: id
                   type: UUID
@@ -78,7 +37,7 @@ databaseChangeLog:
                   type: DATE
             tableName: contract
   - changeSet:
-      id: 1671127855431-4
+      id: 1671127855431-3
       author: vikaz (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -96,7 +55,7 @@ databaseChangeLog:
                   type: VARCHAR(20)
             tableName: db_roles
   - changeSet:
-      id: 1671127855431-5
+      id: 1671127855431-4
       author: vikaz (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -120,7 +79,7 @@ databaseChangeLog:
                   type: UUID
             tableName: db_users
   - changeSet:
-      id: 1671127855431-6
+      id: 1671127855431-5
       author: vikaz (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -160,7 +119,7 @@ databaseChangeLog:
                   type: INT
             tableName: flats
   - changeSet:
-      id: 1671127855431-7
+      id: 1671127855431-6
       author: vikaz (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -201,7 +160,7 @@ databaseChangeLog:
                   type: DATE
             tableName: gages
   - changeSet:
-      id: 1671127855431-8
+      id: 1671127855431-7
       author: vikaz (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -235,7 +194,7 @@ databaseChangeLog:
                   type: DATE
             tableName: gages_data
   - changeSet:
-      id: 1671127855431-9
+      id: 1671127855431-8
       author: vikaz (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -263,7 +222,7 @@ databaseChangeLog:
                   type: DATETIME
             tableName: refreshtoken
   - changeSet:
-      id: 1671127855431-10
+      id: 1671127855431-9
       author: vikaz (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -285,7 +244,7 @@ databaseChangeLog:
                   type: UUID
             tableName: user_roles
   - changeSet:
-      id: 1671127855431-11
+      id: 1671127855431-10
       author: vikaz (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -294,7 +253,7 @@ databaseChangeLog:
             constraintName: uc_6d43caa6819ef780426d946a4
             tableName: gages
   - changeSet:
-      id: 1671127855431-12
+      id: 1671127855431-11
       author: vikaz (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -303,7 +262,7 @@ databaseChangeLog:
             constraintName: uc_7a5f868b821f859da0fea4a33
             tableName: db_users
   - changeSet:
-      id: 1671127855431-13
+      id: 1671127855431-12
       author: vikaz (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -312,18 +271,7 @@ databaseChangeLog:
             constraintName: uc_refreshtoken_token
             tableName: refreshtoken
   - changeSet:
-      id: 1671127855431-14
-      author: vikaz (generated)
-      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
-      changes:
-        - addForeignKeyConstraint:
-            baseColumnNames: user_id
-            baseTableName: claims
-            constraintName: FK_CLAIMS_ON_USER
-            referencedColumnNames: id
-            referencedTableName: db_users
-  - changeSet:
-      id: 1671127855431-15
+      id: 1671127855431-13
       author: vikaz (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -334,7 +282,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: flats
   - changeSet:
-      id: 1671127855431-16
+      id: 1671127855431-14
       author: vikaz (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -345,7 +293,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: contract
   - changeSet:
-      id: 1671127855431-17
+      id: 1671127855431-15
       author: vikaz (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -356,7 +304,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: gages
   - changeSet:
-      id: 1671127855431-18
+      id: 1671127855431-16
       author: vikaz (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -367,7 +315,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: db_users
   - changeSet:
-      id: 1671127855431-19
+      id: 1671127855431-17
       author: vikaz (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -378,7 +326,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: flats
   - changeSet:
-      id: 1671127855431-20
+      id: 1671127855431-18
       author: vikaz (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -389,7 +337,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: db_users
   - changeSet:
-      id: 1671127855431-21
+      id: 1671127855431-19
       author: vikaz (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -400,7 +348,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: db_roles
   - changeSet:
-      id: 1671127855431-22
+      id: 1671127855431-20
       author: vikaz (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -410,4 +358,3 @@ databaseChangeLog:
             constraintName: fk_userol_on_user
             referencedColumnNames: id
             referencedTableName: db_users
-

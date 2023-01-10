@@ -7,12 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-
-/**
- * @author Victoria Zhirnova
- * @project backendHome
- */
-
 @Getter
 @Setter
 @Builder

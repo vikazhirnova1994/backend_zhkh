@@ -38,33 +38,6 @@ public class GageDataService {
         return gageDataRepository.findAll();
     }
 
-    public GageData getGageData(UUID id) {
-        return gageDataRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("GageData not found by id : " + id));
-    }
-
-    @Transactional
-    public GageData createGageData(GageData newGageData, GageDataRequestDto gageDataDto) {
-        User user = userService.getUser(SecurityUtil.getUserId());
-
-        Gage gage = gageService.getGageByTypeGageAndFlat(
-                gageDataDto.getTypeGage(),
-                user.getContract().getFlat());
-
-        newGageData.setUser(user);
-        newGageData.setGage(gage);
-        newGageData.setDepartureDate(LocalDate.now());
-        GageData saveGage = gageDataRepository.save(newGageData);
-
-        return gageDataRepository.findGageDataWithGage(saveGage.getId())
-                .orElseThrow(() -> new EntityNotFoundException(" " + saveGage.getId()));
-    }
-
-    @Transactional
-    public void deleteGageData(UUID id) {
-        gageDataRepository.deleteById(id);
-    }
-
     public Slice<GageData> getUserGagesDataPage(String serialNumber, int page, int size) {
         log.info("Fetching user gages data for page {} of size {}", page, size);
         User user = userService.getUser(SecurityUtil.getUserId());
@@ -72,10 +45,8 @@ public class GageDataService {
         return gageDataRepository.findGagesData(user.getId(), serialNumber, of);
     }
 
-
     public List<GageData> getUserGagesData(UUID gageId) {
         User user = userService.getUser(SecurityUtil.getUserId());
-
         return gageDataRepository.findGagesDataByUserIdAndGageId(user.getId(), gageId);
     }
     public List<GageData> getLastUserGagesData() {
@@ -94,20 +65,38 @@ public class GageDataService {
     public Boolean canAddUserGagesData() {
         User user = userService.getUser(SecurityUtil.getUserId());
         UUID userId = user.getId();
-
         LocalDate now = LocalDate.now();
 
         if (now.getDayOfMonth() >= 20 && now.getDayOfMonth() <= 25) {
             LocalDate from = LocalDate.of(now.getYear(), now.getMonth().getValue(), 20);
             LocalDate to = LocalDate.of(now.getYear(), now.getMonth().getValue(), 25);
-
             return gageDataRepository.findLastGagesDataByUserId(userId, from, to).stream()
                     .sorted(Comparator.comparing(GageData::getDepartureDate).reversed())
                     .limit(5)
                     .toList().size() == 0;
         }
-
         return false;
+    }
+
+    @Transactional
+    public GageData createGageData(GageData newGageData, GageDataRequestDto gageDataDto) {
+        User user = userService.getUser(SecurityUtil.getUserId());
+        Gage gage = gageService.getGageByTypeGageAndFlat(
+                gageDataDto.getTypeGage(),
+                user.getContract().getFlat());
+
+        newGageData.setUser(user);
+        newGageData.setGage(gage);
+        newGageData.setDepartureDate(LocalDate.now());
+        GageData saveGage = gageDataRepository.save(newGageData);
+
+        return gageDataRepository.findGageDataWithGage(saveGage.getId())
+                .orElseThrow(() -> new EntityNotFoundException(" " + saveGage.getId()));
+    }
+
+    @Transactional
+    public void deleteGageData(UUID id) {
+        gageDataRepository.deleteById(id);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)

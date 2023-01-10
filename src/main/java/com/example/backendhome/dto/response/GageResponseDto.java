@@ -11,11 +11,6 @@ import lombok.ToString;
 import java.time.LocalDate;
 import java.util.UUID;
 
-/**
- * @author Victoria Zhirnova
- * @project backendHome
- */
-
 @Getter
 @Setter
 @Builder
@@ -23,16 +18,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GageResponseDto {
-
-    UUID id;
-    String serialNumber;
-    TypeGage typeGage;
-
-    String manufacturer;
-
-    LocalDate installationDate;
-
- /*   LocalDate disposalDate;*/
-
-    String address;
+    private UUID id;
+    private String serialNumber;
+    private TypeGage typeGage;
+    private String manufacturer;
+    private LocalDate installationDate;
+    private String address;
 }

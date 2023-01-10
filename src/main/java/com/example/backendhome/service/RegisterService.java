@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class RegisterService {
 
-
   private final UserService userService;
   private final ContractService contractService;
   private final RoleCreater roleCreater;

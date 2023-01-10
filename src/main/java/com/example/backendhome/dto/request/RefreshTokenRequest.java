@@ -1,4 +1,4 @@
-package com.example.backendhome.dto.payload;
+package com.example.backendhome.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,14 +7,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotBlank;
+
 @Getter
 @Setter
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class TokenRefreshResponse {
-    private String accessToken;
+public class RefreshTokenRequest {
+    @NotBlank
     private String refreshToken;
-    private String type = "Bearer";
 }

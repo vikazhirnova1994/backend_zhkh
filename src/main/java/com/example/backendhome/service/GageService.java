@@ -59,7 +59,12 @@ public class GageService {
     }
 
     public Gage getGageByTypeGageAndFlat(TypeGage typeGage, Flat flat) {
-        return gageRepository.findByTypeGageAndFlat(typeGage, flat)
+
+        Optional<Gage> byTypeGageAndFlat = gageRepository.findByTypeGageAndFlat(typeGage, flat.getId());
+
+        boolean present = byTypeGageAndFlat.isPresent();
+
+        return gageRepository.findByTypeGageAndFlat(typeGage, flat.getId())
                 .orElseThrow(() -> new EntityNotFoundException(""));
     }
 

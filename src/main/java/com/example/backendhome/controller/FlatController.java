@@ -1,19 +1,16 @@
 package com.example.backendhome.controller;
 
-
 import com.example.backendhome.dto.request.FlatRequestDto;
 import com.example.backendhome.dto.request.FlatUpdateRequestDto;
 import com.example.backendhome.dto.response.AddressResponseDto;
 import com.example.backendhome.dto.response.FlatResponseDto;
 import com.example.backendhome.dto.response.HttpResponse;
-import com.example.backendhome.dto.response.TypeGageResponseDto;
 import com.example.backendhome.entity.Flat;
 import com.example.backendhome.mapper.FlatMapper;
 import com.example.backendhome.service.FlatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -67,7 +64,10 @@ public class FlatController {
     @GetMapping("/address")
     public ResponseEntity<List<AddressResponseDto>> getTypeGages() {
         return ResponseEntity.ok(
-                flatService.getTypeGages().stream().map(flatMapper::toAddressResponseDto).collect(Collectors.toList()));
+                flatService.getTypeGages()
+                        .stream()
+                        .map(flatMapper::toAddressResponseDto)
+                        .collect(Collectors.toList()));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -76,20 +76,15 @@ public class FlatController {
         return ResponseEntity.ok(flatService.createFlat(
                 flatMapper.toFlat(flatDto)));
     }
+
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}/edit")
-    //http://localhost:8005/api/flat/2b8ae2c7-8665-4818-8611-845f7cb80d59/edit
-    public ResponseEntity<FlatResponseDto> updateFlat(@PathVariable("id") String id, @RequestBody FlatUpdateRequestDto flatDto) {
+    public ResponseEntity<FlatResponseDto> updateFlat(@PathVariable("id") String id,
+                                                      @RequestBody FlatUpdateRequestDto flatDto) {
         return ResponseEntity.ok(
-                flatMapper.toFlatResponseDto(flatService.saveFlat(UUID.fromString(id), flatDto)));
+                flatMapper.toFlatResponseDto(
+                        flatService.saveFlat(UUID.fromString(id), flatDto)));
     }
-
-
-/*    @PutMapping("/{id}/edit")
-    public ResponseEntity<FlatResponseDto> updateFlat(@PathVariable UUID id, @RequestBody FlatRequestDto flatDto){
-        return ResponseEntity.ok(
-              flatMapper.toFlatResponseDto(flatService.saveFlat(id, flatDto)));
-    }*/
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")

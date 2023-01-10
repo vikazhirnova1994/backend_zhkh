@@ -1,17 +1,15 @@
 package com.example.backendhome.controller;
 
-
 import com.example.backendhome.dto.response.MessageResponse;
-import com.example.backendhome.dto.payload.LoginRequest;
-import com.example.backendhome.dto.payload.RefreshTokenRequest;
-import com.example.backendhome.dto.payload.SignupRequest;
-import com.example.backendhome.dto.payload.TokenRefreshResponse;
+import com.example.backendhome.dto.request.LoginRequest;
+import com.example.backendhome.dto.request.RefreshTokenRequest;
+import com.example.backendhome.dto.request.SignupRequest;
+import com.example.backendhome.dto.response.TokenRefreshResponse;
 import com.example.backendhome.mapper.UserMapper;
 import com.example.backendhome.service.AuthService;
 import com.example.backendhome.service.RegisterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +20,6 @@ import javax.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
-@CrossOrigin(origins = "http://localhost:4200")
 public class AuthController {
     private final UserMapper userMapper;
     private final RegisterService registerService;

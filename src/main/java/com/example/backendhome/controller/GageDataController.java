@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/gage-data")
@@ -36,7 +35,6 @@ public class GageDataController {
 
     private final GageDataService gageDataService;
     private final GageDataMapper gageDataMapper;
-
 
     @GetMapping("/")
     @ResponseStatus(HttpStatus.OK)
@@ -50,7 +48,6 @@ public class GageDataController {
             @RequestParam Optional<Integer> page,
             @RequestParam Optional<Integer> size) throws InterruptedException {
 
-        // TimeUnit.SECONDS.sleep(3);
         return ResponseEntity.ok().body(
                 HttpResponse.builder()
                         .timestamp(LocalDateTime.now().toString())
@@ -63,15 +60,6 @@ public class GageDataController {
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build());
-    }
-    @PostMapping("/user/new")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createNewUserGagesData(@Valid @RequestBody NewUserGagesDataDto newUserGagesData) {
-        gageDataService.createNewUserGagesData(newUserGagesData.getElectricityDay(), TypeGage.ELECTRICAL_ENERGY);
-        gageDataService.createNewUserGagesData(newUserGagesData.getElectricityNight(), TypeGage.ELECTRICAL_ENERGY);
-        gageDataService.createNewUserGagesData(newUserGagesData.getWaterHot(), TypeGage.COLD_WATER);
-        gageDataService.createNewUserGagesData(newUserGagesData.getWaterCool(), TypeGage.COLD_WATER);
-        gageDataService.createNewUserGagesData(newUserGagesData.getEnergy(), TypeGage.THERMAL_ENERGY);
     }
 
     @GetMapping("/user/{gageId}")
@@ -96,18 +84,22 @@ public class GageDataController {
                 .toList();
     }
 
+    @PostMapping("/user/new")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createNewUserGagesData(@Valid @RequestBody NewUserGagesDataDto newUserGagesData) {
+        gageDataService.createNewUserGagesData(newUserGagesData.getElectricityDay(), TypeGage.ELECTRICAL_ENERGY);
+        gageDataService.createNewUserGagesData(newUserGagesData.getElectricityNight(), TypeGage.ELECTRICAL_ENERGY);
+        gageDataService.createNewUserGagesData(newUserGagesData.getEnergy(), TypeGage.THERMAL_ENERGY);
+        gageDataService.createNewUserGagesData(newUserGagesData.getWaterHot(), TypeGage.WATER);
+        gageDataService.createNewUserGagesData(newUserGagesData.getWaterCool(), TypeGage.WATER);
+    }
+
     @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
     public GageDataResponseDto createGageData(@Valid @RequestBody GageDataRequestDto gageDataDto) {
         return gageDataMapper.toGageDataResponseDto(
                 gageDataService.createGageData(
                         gageDataMapper.toGageData(gageDataDto), gageDataDto));
-    }
-
-    @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    public GageData getFlat(@PathVariable UUID id) {
-        return gageDataService.getGageData(id);
     }
 
     @DeleteMapping("/{id}")

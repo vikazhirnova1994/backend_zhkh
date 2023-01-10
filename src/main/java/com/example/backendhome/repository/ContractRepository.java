@@ -23,16 +23,4 @@ public interface ContractRepository  extends JpaRepository<Contract, UUID> {
 
     Boolean existsContractByContractNumber(String contractNumber);
 
-/*
-    @Query(value = """
-            SELECT c FROM Contract c
-            JOIN FETCH c.user
-            JOIN FETCH ac.agreements ag
-            JOIN FETCH ag.productId p
-            WHERE ac.clientId=:clientId AND ac.isActive=true AND
-            c.isDefault = true AND ag.isActive =true AND c.id = :cardId AND ag.id = :agreementId
-            """)
-    Optional<Contract> findContractByUserName(String userName);
-*/
-   // Optional<Contract> findContractByUser(User user);
 }

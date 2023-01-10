@@ -8,9 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
@@ -21,16 +18,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GageDataResponseDto {
-
     @NotNull
     private String serialNumber;
-
     @NotNull
     private TypeGage typeGage;
-
     @NotNull
     private String data;
-
     @NotNull
     private LocalDate departureDate;
 }

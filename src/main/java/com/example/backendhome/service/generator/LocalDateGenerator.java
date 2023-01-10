@@ -4,11 +4,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
-/**
- * @author Victoria Zhirnova
- * @project backendHome
- */
-
 @Component
 public class LocalDateGenerator {
 
@@ -17,16 +12,14 @@ public class LocalDateGenerator {
     private final static int DATE_TO = 25;
 
     public LocalDate from(){
-
-        if (NOW.getDayOfMonth() >= 25 && NOW.getDayOfMonth() <= NOW.getMonth().maxLength()) {
+        if (NOW.getDayOfMonth() >= DATE_FROM && NOW.getDayOfMonth() <= NOW.getMonth().maxLength()) {
             return currentMonthLocalDate(DATE_FROM);
         }
-
         return previousMonthLocalDate(DATE_FROM);
     }
 
     public LocalDate to(){
-        if (NOW.getDayOfMonth() >= 25 && NOW.getDayOfMonth() <= NOW.getMonth().maxLength()) {
+        if (NOW.getDayOfMonth() >= DATE_FROM && NOW.getDayOfMonth() <= NOW.getMonth().maxLength()) {
             return currentMonthLocalDate(DATE_TO);
         }
         return previousMonthLocalDate(DATE_TO);

@@ -14,9 +14,7 @@ import java.util.Set;
 public class RoleCreater {
 
     private final RoleService roleService;
-
     private final static String CONTRACT_FOR_ADMIN = "00000000000000";
-    private final static String CONTRACT_FOR_MODERATOR = "10000000000000";
     private final static String CONTRACT_FOR_DISPATCHER = "20000000000000";
 
     @Transactional
@@ -30,8 +28,6 @@ public class RoleCreater {
     private ERole checkContractNumber(String contractNumber){
         if (contractNumber.equals(CONTRACT_FOR_ADMIN))
             return ERole.ADMIN;
-        if (contractNumber.equals(CONTRACT_FOR_MODERATOR))
-            return ERole.MODERATOR;
         if (contractNumber.equals(CONTRACT_FOR_DISPATCHER))
             return ERole.ADMIN;
         return ERole.USER;

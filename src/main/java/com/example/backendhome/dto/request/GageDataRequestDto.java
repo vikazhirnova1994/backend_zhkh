@@ -10,7 +10,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
-import java.math.BigInteger;
 
 @Getter
 @Setter
@@ -19,12 +18,10 @@ import java.math.BigInteger;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GageDataRequestDto {
-
     @NotNull
-   // @JsonProperty("data")
+    @JsonProperty("data")
     private String data;
-
-   // @JsonProperty("typeGage")
+   @JsonProperty("typeGage")
     @NotNull
     private TypeGage typeGage;
 }

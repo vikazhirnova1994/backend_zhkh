@@ -16,19 +16,14 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NewUserGagesDataDto {
-
     @NotNull
     private String electricityDay;
-
     @NotNull
     private String electricityNight;
-
     @NotNull
     private String waterHot;
-
     @NotNull
     private String waterCool;
-
     @NotNull
     private String energy;
 }

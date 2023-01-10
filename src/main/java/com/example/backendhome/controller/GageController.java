@@ -1,19 +1,14 @@
 package com.example.backendhome.controller;
 
-import com.example.backendhome.dto.request.FlatRequestDto;
-import com.example.backendhome.dto.request.GageRequestDto;
 import com.example.backendhome.dto.request.GageRequestWithAddressDto;
 import com.example.backendhome.dto.response.HttpResponse;
 import com.example.backendhome.dto.response.TypeGageResponseDto;
-import com.example.backendhome.entity.Flat;
 import com.example.backendhome.entity.Gage;
-import com.example.backendhome.entity.enums.TypeGage;
 import com.example.backendhome.mapper.GageMapper;
 import com.example.backendhome.service.GageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +30,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/gage")
-@CrossOrigin(origins = "http://localhost:4200")
 public class GageController {
 
     private final GageService gageService;
@@ -62,8 +56,6 @@ public class GageController {
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build());
-
-
     }
 
     @GetMapping("/user-gages")
@@ -77,27 +69,15 @@ public class GageController {
                 gageService.getTypeGages().stream().map(gageMapper::toTypeGageResponseDto).collect(Collectors.toList()));
     }
 
-    @PostMapping("/")
-    public ResponseEntity<Gage> createFlat(@Valid GageRequestDto gageDto) {
-        return ResponseEntity.ok(
-                gageService.createGage(
-                        gageMapper.toGage(gageDto)));
-    }
-
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/new")
-    public ResponseEntity<Gage> createFlat(@Valid @RequestBody GageRequestWithAddressDto dto){
+    public ResponseEntity<Gage> createGage(@Valid @RequestBody GageRequestWithAddressDto dto) {
         return ResponseEntity.ok(gageService.createCage(dto));
-    }
-
-    @PostMapping("/{id}")
-    public ResponseEntity<Gage> getFlat(@PathVariable UUID id) {
-        return ResponseEntity.ok(gageService.getGage(id));
     }
 
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")
-    public void deleteFlat(@PathVariable("id") String id){
+    public void deleteFlat(@PathVariable("id") String id) {
         gageService.deleteGage(UUID.fromString(id));
     }
 }

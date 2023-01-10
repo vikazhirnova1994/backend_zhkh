@@ -1,8 +1,8 @@
 package com.example.backendhome.service;
 
 
-import com.example.backendhome.dto.payload.JwtResponse;
-import com.example.backendhome.dto.payload.LoginRequest;
+import com.example.backendhome.dto.response.JwtResponse;
+import com.example.backendhome.dto.request.LoginRequest;
 import com.example.backendhome.entity.RefreshToken;
 import com.example.backendhome.security.jwt.JwtUtils;
 import com.example.backendhome.util.exception.TokenRefreshException;

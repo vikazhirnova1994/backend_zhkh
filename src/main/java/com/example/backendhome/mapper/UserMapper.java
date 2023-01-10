@@ -1,7 +1,7 @@
 package com.example.backendhome.mapper;
 
 import com.example.backendhome.dto.request.UserRequestDto;
-import com.example.backendhome.dto.payload.SignupRequest;
+import com.example.backendhome.dto.request.SignupRequest;
 import com.example.backendhome.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

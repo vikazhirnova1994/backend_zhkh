@@ -20,12 +20,9 @@ public class UserRequestDto {
     @NotBlank
     @Size(min = 3, max = 20)
     private String username;
-
     @Size(min = 14, max = 14)
     private String contractNumber;
-
     private String role;
-
     @NotBlank
     @Size(min = 8, max = 40)
     private String password;

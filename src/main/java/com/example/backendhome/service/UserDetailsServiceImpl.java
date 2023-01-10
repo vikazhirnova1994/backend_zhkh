@@ -18,7 +18,6 @@ import javax.transaction.Transactional;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
-
     private final ContractRepository contractRepository;
 
     @Override

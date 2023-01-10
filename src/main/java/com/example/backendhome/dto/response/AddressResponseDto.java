@@ -7,11 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-/**
- * @author Victoria Zhirnova
- * @project backendHome
- */
-
 @Getter
 @Setter
 @Builder
@@ -19,5 +14,5 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AddressResponseDto {
-    String address;
+    private String address;
 }

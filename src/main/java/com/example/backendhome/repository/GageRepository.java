@@ -23,7 +23,13 @@ public interface GageRepository extends JpaRepository<Gage, UUID> {
             """)
     List<Gage> findGagesWithFlat();
 
-    Optional<Gage> findByTypeGageAndFlat(TypeGage typeGage, Flat flat);
+
+    @Query(value = """
+            select g from Gage g
+            left join fetch g.flat f
+            where f.id = :flatId and g.typeGage = :typeGage and g.disposalDate is null
+            """)
+    Optional<Gage> findByTypeGageAndFlat(TypeGage typeGage, UUID flatId);
 
     @Query(value = """
             select g from Gage g

@@ -13,6 +13,8 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class TypeGageResponseDto {
-    private String name;
+public class TokenRefreshResponse {
+    private String accessToken;
+    private String refreshToken;
+    private String type = "Bearer";
 }

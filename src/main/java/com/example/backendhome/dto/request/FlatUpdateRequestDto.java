@@ -7,11 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-/**
- * @author Victoria Zhirnova
- * @project backendHome
- */
-
 @Getter
 @Setter
 @Builder
@@ -25,5 +20,4 @@ public class FlatUpdateRequestDto {
     private String  houseNumber;
     private String id;
     private String street;
-
 }
