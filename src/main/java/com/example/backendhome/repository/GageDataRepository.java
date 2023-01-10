@@ -1,11 +1,8 @@
 package com.example.backendhome.repository;
 
 import com.example.backendhome.entity.GageData;
-import com.example.backendhome.entity.enums.TypeGage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -51,18 +48,19 @@ public interface GageDataRepository extends JpaRepository<GageData, UUID> {
     List<GageData> findGagesDataByUserId(UUID userId);
 */
 
-    @Query(value = """
-                select * from gages_data
-                left join db_users du on du.id = gages_data.user_id
-                left join gages g on gages_data.gage_id = g.id
-                where du.id = ?1 and g.serial_number like %?2%
-                """,
+    @Query(value =
+           """
+           select * from gages_data
+           left join db_users du on du.id = gages_data.user_id
+           left join gages g on gages_data.gage_id = g.id
+           where du.id = ?1 and g.serial_number like %?2%
+           """,
             countQuery = """
-                 select count(*)  from gages_data
-                 left join db_users du on du.id = gages_data.user_id
-                 left join gages g on gages_data.gage_id = g.id
-                 where du.id = ?1 and g.serial_number like %?2%
-                 """,
+            select count(*)  from gages_data
+            left join db_users du on du.id = gages_data.user_id
+            left join gages g on gages_data.gage_id = g.id
+            where du.id = ?1 and g.serial_number like %?2%
+            """,
             nativeQuery = true)
     Page<GageData> findGagesData(UUID userId, String serialNumber, Pageable pageable);
 }

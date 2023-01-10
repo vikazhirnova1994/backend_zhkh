@@ -1,6 +1,7 @@
 package com.example.backendhome.mapper;
 
 import com.example.backendhome.dto.request.FlatRequestDto;
+import com.example.backendhome.dto.response.AddressResponseDto;
 import com.example.backendhome.dto.response.FlatResponseDto;
 import com.example.backendhome.entity.Flat;
 import org.mapstruct.Mapper;
@@ -12,4 +13,7 @@ public interface FlatMapper {
     @Mapping(target = "id", source = "flat.id")
 
     FlatResponseDto toFlatResponseDto(Flat flat);
+
+    @Mapping(target = "address", source = "address")
+    AddressResponseDto toAddressResponseDto(String address);
 }

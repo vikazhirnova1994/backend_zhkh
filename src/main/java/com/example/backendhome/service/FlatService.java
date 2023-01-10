@@ -3,7 +3,9 @@ package com.example.backendhome.service;
 import com.example.backendhome.dto.request.FlatRequestDto;
 import com.example.backendhome.dto.request.FlatUpdateRequestDto;
 import com.example.backendhome.entity.Flat;
+import com.example.backendhome.entity.Gage;
 import com.example.backendhome.entity.GageData;
+import com.example.backendhome.entity.enums.TypeGage;
 import com.example.backendhome.repository.FlatRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -30,24 +33,34 @@ public class FlatService {
         return flatRepository.findAll();
     }
 
+    public Flat getFlat(String city, String street, String houseNumber, Integer entrance, Integer flatNumber ) {
+
+        return flatRepository.findByCityAndStreetAndHouseNumberAndEntranceAndFlatNumber(
+                city,
+                street,
+                houseNumber,
+                entrance,
+                flatNumber
+                ).orElseThrow(() -> new EntityNotFoundException("Flat not found"));
+    }
+
     public Flat getFlat(UUID id) {
         return flatRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Flat not found by id : " + id));
     }
 
-    @Transactional
-    public Flat createFlat(Flat flat) {
-        return flatRepository.save(flat);
-    }
-
-    @Transactional
-    public void deleteFlat(UUID id) {
-        flatRepository.deleteById(id);
-    }
-
-    public Slice<Flat> getFlatsPage(int page, int size) {
+   public Slice<Flat> getFlatsPage(int page, int size) {
         Pageable of = PageRequest.of(page, size);
         return flatRepository.findFlat(of);
     }
+
+    public List<String> getTypeGages() {
+        return flatRepository.findAll()
+                .stream()
+                .map(Flat::toString)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public Flat saveFlat(UUID id, FlatUpdateRequestDto flatDto) {
         Flat flat = flatRepository.findById(id).orElseThrow();
@@ -58,5 +71,15 @@ public class FlatService {
         flat.setFlatNumber(Integer.valueOf(flatDto.getFlatNumber()));
         flatRepository.save(flat);
         return flat;
+    }
+
+    @Transactional
+    public Flat createFlat(Flat flat) {
+        return flatRepository.save(flat);
+    }
+
+    @Transactional
+    public void deleteFlat(UUID id) {
+        flatRepository.deleteById(id);
     }
 }

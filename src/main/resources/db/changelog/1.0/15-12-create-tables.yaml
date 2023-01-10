@@ -158,11 +158,6 @@ databaseChangeLog:
                     nullable: false
                   name: flat_number
                   type: INT
-              - column:
-                  constraints:
-                    nullable: true
-                  name: area
-                  type: DECIMAL(9, 2)
             tableName: flats
   - changeSet:
       id: 1671127855431-7

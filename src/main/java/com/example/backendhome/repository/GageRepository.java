@@ -3,6 +3,9 @@ package com.example.backendhome.repository;
 import com.example.backendhome.entity.Flat;
 import com.example.backendhome.entity.Gage;
 import com.example.backendhome.entity.enums.TypeGage;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -28,4 +31,17 @@ public interface GageRepository extends JpaRepository<Gage, UUID> {
             where f.id = :flatId
             """)
     List<Gage> findGagesWithFlatByFlatId(UUID flatId);
+
+    @Query(value = """
+            select * from gages
+            left join flats on gages.flat_id = flats.id
+            where gages.disposal_date is null
+            """,
+            countQuery = """
+            select count(*) from gages
+            left join flats on gages.flat_id = flats.id
+            where gages.disposal_date is null
+            """,
+            nativeQuery = true)
+    Page<Gage> findGage(Pageable pageable);
 }

@@ -3,8 +3,10 @@ package com.example.backendhome.controller;
 
 import com.example.backendhome.dto.request.FlatRequestDto;
 import com.example.backendhome.dto.request.FlatUpdateRequestDto;
+import com.example.backendhome.dto.response.AddressResponseDto;
 import com.example.backendhome.dto.response.FlatResponseDto;
 import com.example.backendhome.dto.response.HttpResponse;
+import com.example.backendhome.dto.response.TypeGageResponseDto;
 import com.example.backendhome.entity.Flat;
 import com.example.backendhome.mapper.FlatMapper;
 import com.example.backendhome.service.FlatService;
@@ -29,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,23 +48,26 @@ public class FlatController {
 
     @GetMapping("")
     public ResponseEntity<HttpResponse> getFlatsPageable(
-          //  @RequestParam Optional<String> serialNumber,
             @RequestParam Optional<Integer> page,
             @RequestParam Optional<Integer> size) throws InterruptedException {
 
-        // TimeUnit.SECONDS.sleep(3);
         return ResponseEntity.ok().body(
                 HttpResponse.builder()
                         .timestamp(LocalDateTime.now().toString())
                         .data(Map.of("page", flatService.getFlatsPage(
-                                       // serialNumber.orElse(""),
                                         page.orElse(0),
-                                        size.orElse(10))
+                                        size.orElse(5))
                                 .map(flatMapper::toFlatResponseDto)))
                         .message("")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build());
+    }
+
+    @GetMapping("/address")
+    public ResponseEntity<List<AddressResponseDto>> getTypeGages() {
+        return ResponseEntity.ok(
+                flatService.getTypeGages().stream().map(flatMapper::toAddressResponseDto).collect(Collectors.toList()));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -77,6 +83,7 @@ public class FlatController {
         return ResponseEntity.ok(
                 flatMapper.toFlatResponseDto(flatService.saveFlat(UUID.fromString(id), flatDto)));
     }
+
 
 /*    @PutMapping("/{id}/edit")
     public ResponseEntity<FlatResponseDto> updateFlat(@PathVariable UUID id, @RequestBody FlatRequestDto flatDto){

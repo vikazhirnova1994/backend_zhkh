@@ -50,4 +50,11 @@ public class Flat {
     @NotNull
     @Column(name = "flatNumber", length = 20)
     private Integer flatNumber;
+
+    @Override
+    public String toString() {
+        return city + ", улица " + street + ", дом " + houseNumber +
+                ", подъезд " + entrance +
+                ", квартира " + flatNumber;
+    }
 }
