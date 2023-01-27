@@ -36,6 +36,9 @@ public class UserService {
     public User getUser(UUID id) {
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("" + id));
     }
+    public User getUser(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException(""));
+    }
 
     public Flat getUserFlat(UUID id) {
         User user = userRepository.findUserFlat(id)

@@ -1,6 +1,7 @@
 package com.example.backendhome.util;
 
 import com.example.backendhome.util.exception.TokenRefreshException;
+import com.example.backendhome.util.exception.UserByContractNumberNotFoundException;
 import com.example.backendhome.util.exception.UserExistException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.NestedExceptionUtils;
@@ -35,6 +36,11 @@ public class GlobalControllerAdvice {
     @ResponseStatus(HttpStatus.CONFLICT)
     public ResponseEntity<ErrorMessage> handleEntityNotFoundException(HttpServletRequest req, EntityNotFoundException ex) {
         return logAndGetErrorInfo(req, ex, ErrorType.USER_IS_ALREADY_EXIST);
+    }
+    @ExceptionHandler(UserByContractNumberNotFoundException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<ErrorMessage> handleUserByContractNumberNotFoundException(HttpServletRequest req, EntityNotFoundException ex) {
+        return logAndGetErrorInfo(req, ex, ErrorType.USER_BY_CONTRACT_NUMBER_NOT_FOUND);
     }
 
     private ResponseEntity<ErrorMessage> logAndGetErrorInfo(HttpServletRequest req, Exception e, ErrorType errorType) {

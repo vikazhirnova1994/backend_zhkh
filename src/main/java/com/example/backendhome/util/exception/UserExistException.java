@@ -1,8 +1,7 @@
 package com.example.backendhome.util.exception;
 
-public class UserExistException extends RuntimeException{
+public class UserExistException extends RuntimeException {
     public UserExistException(String message){
         super(message);
     }
-
 }

@@ -2,6 +2,7 @@ package com.example.backendhome.controller;
 
 import com.example.backendhome.dto.request.LoginRequest;
 import com.example.backendhome.dto.request.RefreshTokenRequest;
+import com.example.backendhome.dto.request.ResetPasswordDto;
 import com.example.backendhome.dto.request.SignupRequest;
 import com.example.backendhome.dto.response.MessageResponse;
 import com.example.backendhome.dto.response.TokenRefreshResponse;
@@ -32,9 +33,14 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
-        registerService.registerUser(userMapper.toUser(signupRequest),
-                signupRequest.getContractNumber());
+        registerService.registerUser(userMapper.toUser(signupRequest), signupRequest.getContractNumber());
         return ResponseEntity.ok(new MessageResponse("User CREATED"));
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetUserPassword(@Valid @RequestBody ResetPasswordDto resetPasswordDto) {
+        registerService.resetUserPassword(resetPasswordDto);
+        return ResponseEntity.ok(new MessageResponse("Password CHANGED"));
     }
 
     @PostMapping("/signout")
