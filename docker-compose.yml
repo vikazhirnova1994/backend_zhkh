@@ -1,0 +1,27 @@
+version: '3'
+services:
+  ### Postgres Database ###
+  postgres:
+    image: 'postgres:15.0'
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: 2104V
+      POSTGRES_USER: postgres
+      POSTGRES_DB: backend
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./postgres-data:/var/lib/postgresql/data
+
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgresql://postgres:5432/backend
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: 2104V
+    ports:
+      - "8005:8005"

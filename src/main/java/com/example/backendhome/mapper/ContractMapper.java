@@ -11,6 +11,4 @@ public interface ContractMapper {
 
     @Mapping(target = "address",  expression = "java( contract.getFlat().toString() )")
     ContractResponseDto toContractResponseDto(Contract contract);
-
-    Contract toContract(ContractRequestDto contractRequestDto);
 }
