@@ -71,7 +71,7 @@ public class ClaimController {
         return ResponseEntity.ok().body(
                 HttpResponse.builder()
                         .timestamp(LocalDateTime.now().toString())
-                        .data(Map.of("page", claimService.getClaimsPageForUser(
+                        .data(Map.of("page", claimService.getUserClaimsPage(
                                         page.orElse(0),
                                         size.orElse(5))
                                 .map(claimMapper::toUserClaimResponseDto)))
@@ -84,18 +84,18 @@ public class ClaimController {
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/user/new")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createNewUserGagesData(@Valid @RequestBody NewUserClaimDto newUserClaimData) {
+    public void createNewUserClaimsData(@Valid @RequestBody NewUserClaimDto newUserClaimData) {
         claimService.createNewUserClaimsData(newUserClaimData);
     }
 
     @PreAuthorize("hasRole('DISPATCHER')")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}/edit")
-    public ResponseEntity<ClaimResponseDto> updateFlat(@PathVariable("id") String id,
-                                                       @Valid @RequestBody ClaimUpdateRequestDto claimDto) {
+    public ResponseEntity<ClaimResponseDto> updateClaimData(@PathVariable("id") String id,
+                                                            @Valid @RequestBody ClaimUpdateRequestDto claimDto) {
         return ResponseEntity.ok(
                 claimMapper.toClaimResponseDto(
-                        claimService.updateClaim(UUID.fromString(id), claimDto)));
+                        claimService.updateClaimExecutor(UUID.fromString(id), claimDto)));
     }
 
     @PreAuthorize("hasRole('DISPATCHER')")

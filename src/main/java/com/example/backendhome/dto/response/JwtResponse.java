@@ -23,5 +23,6 @@ public class JwtResponse {
     private UUID id;
     private String username;
     private String contractNumber;
+    private String address;
     private List<String> roles;
 }

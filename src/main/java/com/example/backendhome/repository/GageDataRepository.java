@@ -35,9 +35,30 @@ public interface GageDataRepository extends JpaRepository<GageData, UUID> {
             SELECT gd FROM GageData gd
             JOIN FETCH gd.gage g
             JOIN FETCH gd.user u
+            JOIN FETCH u.contract c
+            JOIN FETCH c.flat f
+            where f.id = :flatId
+            and gd.departureDate between :from and :to and g.disposalDate is null
+            """)
+    List<GageData> findLastGagesDataByFlatId(UUID flatId, LocalDate from, LocalDate to);
+
+    @Query(value = """
+            SELECT gd FROM GageData gd
+            JOIN FETCH gd.gage g
+            JOIN FETCH gd.user u
             where u.id = :userId and g.id = :gageId
             """)
     List<GageData> findGagesDataByUserIdAndGageId(UUID userId, UUID gageId);
+
+    @Query(value = """
+            SELECT gd FROM GageData gd
+            JOIN FETCH gd.gage g
+            JOIN FETCH gd.user u
+            JOIN FETCH u.contract c
+            JOIN FETCH c.flat f
+            where f.id = :flatId and g.id = :gageId
+            """)
+    List<GageData> findGagesDataByFlatIdAndGageId(UUID flatId, UUID gageId);
 
     @Query(value =
             """
@@ -63,6 +84,26 @@ public interface GageDataRepository extends JpaRepository<GageData, UUID> {
             """,
             nativeQuery = true)
     Page<GageData> findUserGagesData(UUID userId, String serialNumber, Pageable pageable);
+
+    @Query(value =
+            """
+            select * from gages_data
+            left join db_users du on du.id = gages_data.user_id
+            left join contract c on c.id = du.contract_id
+            left join flats f on f.id = c.flat_id
+            left join gages g on gages_data.gage_id = g.id
+            where f.id = ?1 and g.serial_number like %?2%
+            """,
+            countQuery = """
+            select count(*)  from gages_data
+            left join db_users du on du.id = gages_data.user_id
+            left join contract c on c.id = du.contract_id
+            left join flats f on f.id = c.flat_id
+            left join gages g on gages_data.gage_id = g.id
+            where f.id = ?1 and g.serial_number like %?2%
+            """,
+            nativeQuery = true)
+    Page<GageData> findFlatGagesData(UUID flatId, String serialNumber, Pageable pageable);
 
     @Query(value =
             """

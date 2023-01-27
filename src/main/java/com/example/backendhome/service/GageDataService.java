@@ -44,8 +44,10 @@ public class GageDataService {
     public Slice<GageData> getUserGagesDataPage(String serialNumber, int page, int size) {
         log.info("Fetching user gages data for page {} of size {}", page, size);
         User user = userService.getUser(SecurityUtil.getUserId());
+        Flat flat = user.getContract().getFlat();
+        UUID flatId = flat.getId();
         Pageable of = PageRequest.of(page, size);
-        return gageDataRepository.findUserGagesData(user.getId(), serialNumber, of);
+       return gageDataRepository.findFlatGagesData(flatId, serialNumber, of);
     }
 
     public Slice<GageData> getGagesDataPage(String contractNumber, String serialNumber, int page, int size) {
@@ -58,7 +60,9 @@ public class GageDataService {
     public List<GageData> getUserGagesData(UUID gageId) {
         User user = userService.getUser(SecurityUtil.getUserId());
         log.info("Finding gages data by userId {} and by gageId {} ...", user.getId(), gageId);
-        return gageDataRepository.findGagesDataByUserIdAndGageId(user.getId(), gageId);
+        Flat flat = user.getContract().getFlat();
+        UUID flatId = flat.getId();
+        return gageDataRepository.findGagesDataByFlatIdAndGageId(flatId, gageId);
     }
     public List<GageData> getLastUserGagesData() {
         User user = userService.getUser(SecurityUtil.getUserId());
@@ -77,7 +81,10 @@ public class GageDataService {
         log.info("to: {}", to);
         log.info("Finding gages data by date of from {} and to {} ...", from, to);
 
-        return gageDataRepository.findLastGagesDataByUserId(userId, from, to).stream()
+        Flat flat = user.getContract().getFlat();
+        UUID flatId = flat.getId();
+
+        return gageDataRepository.findLastGagesDataByFlatId(flatId, from, to).stream()
                 .sorted(Comparator.comparing(GageData::getDepartureDate).reversed())
                 .limit(5)
                 .toList();

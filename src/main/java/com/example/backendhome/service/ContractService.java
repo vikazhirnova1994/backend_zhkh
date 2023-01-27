@@ -47,6 +47,12 @@ public class ContractService {
         return contractRepository.findContract(of);
     }
 
+    public Flat getFlatContractByContractNumber(String contractNumber){
+        Contract contract = contractRepository.findContractWithFlat(contractNumber)
+                .orElseThrow(() -> new EntityNotFoundException());
+        return contract.getFlat();
+    }
+
     @Transactional
     public void createContract(ContractRequestDto dto) {
         log.info("Transforming dto...");

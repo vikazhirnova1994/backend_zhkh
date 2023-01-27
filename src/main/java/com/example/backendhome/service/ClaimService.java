@@ -3,6 +3,7 @@ package com.example.backendhome.service;
 import com.example.backendhome.dto.request.ClaimUpdateRequestDto;
 import com.example.backendhome.dto.request.NewUserClaimDto;
 import com.example.backendhome.entity.Claim;
+import com.example.backendhome.entity.Flat;
 import com.example.backendhome.entity.User;
 import com.example.backendhome.entity.enums.ClaimStatus;
 import com.example.backendhome.repository.ClaimRepository;
@@ -18,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -53,11 +53,14 @@ public class ClaimService {
         return obj;
     }
 
-    public Slice<Claim> getClaimsPageForUser(int page, int size) {
+    public Slice<Claim> getUserClaimsPage(int page, int size) {
         log.info("Fetching user gages data for page {} of size {}", page, size);
         User user = userService.getUser(SecurityUtil.getUserId());
+        Flat flat = user.getContract().getFlat();
+        UUID flatId = flat.getId();
         Pageable of = PageRequest.of(page, size);
-        return claimRepository.findClaimsForUser(user.getId(), of);
+        //return claimRepository.findUserClaims(user.getId(), of);
+        return claimRepository.findUserClaimsByFlatId(flatId, of);
     }
 
     public Slice<Claim> getClaimsPage(String status, int page, int size) {
@@ -79,14 +82,10 @@ public class ClaimService {
     }
 
     @Transactional
-    public Claim updateClaim(UUID id, ClaimUpdateRequestDto claimDto) {
+    public Claim updateClaimExecutor(UUID id, ClaimUpdateRequestDto claimDto) {
         Claim claim = claimRepository.findById(id).orElseThrow();
-        ClaimStatus claimStatus = Arrays.stream(ClaimStatus.values())
-                .filter(el -> el.name().equals(claimDto.getStatus()))
-                .findFirst().get();
-
-        claim.setStatus(claimStatus);
         claim.setExecutorIdentificationNumber(claimDto.getExecutorIdentificationNumber());
+        claim.setStatus(ClaimStatus.IN_PROGRESS);
         claimRepository.save(claim);
         return claim;
     }

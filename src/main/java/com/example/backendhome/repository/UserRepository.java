@@ -55,4 +55,11 @@ public interface UserRepository extends JpaRepository<User, UUID> {
             """,
             nativeQuery = true)
     Page<User> findUsers(UUID id, Pageable of);
+
+    @Query(value = """
+            SELECT u FROM User u
+            JOIN FETCH u.contract c
+            JOIN FETCH c.flat f
+            """)
+    Optional<User> findUserFlat(UUID id);
 }

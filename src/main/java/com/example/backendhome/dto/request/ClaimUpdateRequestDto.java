@@ -17,7 +17,5 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class ClaimUpdateRequestDto {
     @NotNull
-    private String status;
-    @NotNull
     private String executorIdentificationNumber;
 }

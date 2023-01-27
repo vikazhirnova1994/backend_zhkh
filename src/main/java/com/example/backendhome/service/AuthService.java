@@ -24,6 +24,7 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
     private final RefreshTokenService refreshTokenService;
+    private final ContractService contractService;
 
     public JwtResponse auth(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -40,6 +41,9 @@ public class AuthService {
                 .collect(Collectors.toList());
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
 
+        String contractNumber = userDetails.getContractNumber();
+        String address = contractService.getFlatContractByContractNumber(contractNumber).toString();
+
         return JwtResponse.builder()
                 .token(jwt)
                 .type("Bearer")
@@ -47,6 +51,7 @@ public class AuthService {
                 .id(userDetails.getId())
                 .username(userDetails.getUsername())
                 .contractNumber(userDetails.getContractNumber())
+                .address(address)
                 .roles(roles)
                 .build();
     }

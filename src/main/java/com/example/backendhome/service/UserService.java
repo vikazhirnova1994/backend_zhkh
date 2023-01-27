@@ -2,6 +2,7 @@ package com.example.backendhome.service;
 
 import com.example.backendhome.dto.request.UserUpdateRequestDto;
 import com.example.backendhome.entity.Contract;
+import com.example.backendhome.entity.Flat;
 import com.example.backendhome.entity.Role;
 import com.example.backendhome.entity.User;
 import com.example.backendhome.repository.UserRepository;
@@ -34,6 +35,12 @@ public class UserService {
 
     public User getUser(UUID id) {
         return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("" + id));
+    }
+
+    public Flat getUserFlat(UUID id) {
+        User user = userRepository.findUserFlat(id)
+                .orElseThrow(() -> new EntityNotFoundException("" + id));
+        return user.getContract().getFlat();
     }
 
     public Slice<User> getUsers(UUID userId, int page, int size) {
