@@ -11,6 +11,7 @@ import com.example.backendhome.service.FlatService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,15 +35,16 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/api/flat")
 public class FlatController {
-
     private final FlatService flatService;
     private final FlatMapper flatMapper;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/")
     public ResponseEntity<List<Flat>> getFlats(){
         return ResponseEntity.ok(flatService.getFlats());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("")
     public ResponseEntity<HttpResponse> getFlatsPageable(
             @RequestParam Optional<Integer> page,
@@ -61,15 +63,17 @@ public class FlatController {
                         .build());
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/address")
-    public ResponseEntity<List<AddressResponseDto>> getTypeGages() {
+    public ResponseEntity<List<AddressResponseDto>> getAddresses() {
         return ResponseEntity.ok(
-                flatService.getTypeGages()
+                flatService.getAddresses()
                         .stream()
                         .map(flatMapper::toAddressResponseDto)
                         .collect(Collectors.toList()));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/new")
     public ResponseEntity<Flat> createFlat(@Valid @RequestBody FlatRequestDto flatDto){
@@ -77,15 +81,17 @@ public class FlatController {
                 flatMapper.toFlat(flatDto)));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}/edit")
     public ResponseEntity<FlatResponseDto> updateFlat(@PathVariable("id") String id,
-                                                      @RequestBody FlatUpdateRequestDto flatDto) {
+                                                      @Valid @RequestBody FlatUpdateRequestDto flatDto) {
         return ResponseEntity.ok(
                 flatMapper.toFlatResponseDto(
                         flatService.saveFlat(UUID.fromString(id), flatDto)));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")
     public void deleteFlat(@PathVariable("id") String id){

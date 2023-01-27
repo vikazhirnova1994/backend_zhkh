@@ -15,7 +15,11 @@ import javax.validation.constraints.NotNull;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class RefreshTokenRequest {
+public class ContractRequestDto {
     @NotNull
-    private String refreshToken;
+    private String contractNumber;
+    @NotNull
+    private String address;
+    @NotNull
+    private Date signedDate;
 }

@@ -1,15 +1,10 @@
 package com.example.backendhome.service;
 
-import com.example.backendhome.dto.request.FlatRequestDto;
 import com.example.backendhome.dto.request.FlatUpdateRequestDto;
 import com.example.backendhome.entity.Flat;
-import com.example.backendhome.entity.Gage;
-import com.example.backendhome.entity.GageData;
-import com.example.backendhome.entity.enums.TypeGage;
 import com.example.backendhome.repository.FlatRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.bytebuddy.jar.asm.commons.Remapper;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -26,7 +21,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class FlatService {
-
     private final FlatRepository flatRepository;
 
     public List<Flat> getFlats() {
@@ -35,11 +29,7 @@ public class FlatService {
 
     public Flat getFlat(String city, String street, String houseNumber, Integer entrance, Integer flatNumber) {
         return flatRepository.findByCityAndStreetAndHouseNumberAndEntranceAndFlatNumber(
-                        city,
-                        street,
-                        houseNumber,
-                        entrance,
-                        flatNumber)
+                        city, street, houseNumber, entrance, flatNumber)
                 .orElseThrow(() -> new EntityNotFoundException("Flat not found"));
     }
 
@@ -52,7 +42,7 @@ public class FlatService {
         return flatRepository.findFlat(of);
     }
 
-    public List<String> getTypeGages() {
+    public List<String> getAddresses() {
         return flatRepository.findAll()
                 .stream()
                 .map(Flat::toString)

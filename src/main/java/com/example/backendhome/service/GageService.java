@@ -1,12 +1,13 @@
 package com.example.backendhome.service;
 
 import com.example.backendhome.dto.request.GageRequestWithAddressDto;
-import com.example.backendhome.dto.request.InstallationDate;
 import com.example.backendhome.entity.Flat;
 import com.example.backendhome.entity.Gage;
 import com.example.backendhome.entity.User;
 import com.example.backendhome.entity.enums.TypeGage;
 import com.example.backendhome.repository.GageRepository;
+import com.example.backendhome.service.generator.AddressSplitter;
+import com.example.backendhome.service.generator.DateTransform;
 import com.example.backendhome.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -28,11 +28,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class GageService {
-
     private final GageRepository gageRepository;
     private final UserService userService;
-
     private final FlatService flatService;
+    private final DateTransform dateTransform;
+    private final AddressSplitter addressSplitter;
 
     public List<Gage> getGages() {
         return gageRepository.findGagesWithFlat();
@@ -41,6 +41,7 @@ public class GageService {
     public List<Gage> getUserGages() {
         User user = userService.getUser(SecurityUtil.getUserId());
         UUID flatId = user.getContract().getFlat().getId();
+        log.info("Finding gages by id of users flat: {}", flatId);
         return gageRepository.findGagesWithFlatByFlatId(flatId)
                 .stream()
                 .filter(el -> el.getDisposalDate() == null)
@@ -48,24 +49,21 @@ public class GageService {
     }
 
     public Gage getGage(UUID id) {
+        log.info("Finding gage by id: {}", id);
         return gageRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Gage not found by id : " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Can not found gage by id : " + id));
     }
 
-    public Slice<Gage> getGagePage(int page, int size){
+    public Slice<Gage> getGagePage(int page, int size) {
         log.info("Fetching user gages data for page {} of size {}", page, size);
         Pageable of = PageRequest.of(page, size);
         return gageRepository.findGage(of);
     }
 
     public Gage getGageByTypeGageAndFlat(TypeGage typeGage, Flat flat) {
-
-        Optional<Gage> byTypeGageAndFlat = gageRepository.findByTypeGageAndFlat(typeGage, flat.getId());
-
-        boolean present = byTypeGageAndFlat.isPresent();
-
+        log.info("Finding gage by type gage and flat: {}, {}", typeGage, flat);
         return gageRepository.findByTypeGageAndFlat(typeGage, flat.getId())
-                .orElseThrow(() -> new EntityNotFoundException(""));
+                .orElseThrow(() -> new EntityNotFoundException("Can not found gage by type gage and flat"));
     }
 
     @Transactional
@@ -75,41 +73,41 @@ public class GageService {
 
     @Transactional
     public void deleteGage(UUID id) {
+        log.info("Finding gage by id: {}", id);
         Gage gage = gageRepository.findById(id).orElseThrow();
         gage.setDisposalDate(LocalDate.now());
+        log.info("Changing disposal date for gage: {}", gage);
         gageRepository.save(gage);
     }
 
     public List<TypeGage> getTypeGages() {
-        return gageRepository.findAll()
+        log.info("Getting list of type gages...");
+        List<TypeGage> typeGages = gageRepository.findAll()
                 .stream()
                 .map(Gage::getTypeGage)
                 .distinct()
                 .collect(Collectors.toList());
+        log.info("List of type gages: {}", typeGages);
+
+        return typeGages;
     }
 
     @Transactional
     public Gage createCage(GageRequestWithAddressDto dto) {
-
+        log.info("Transforming dto...");
+        log.info("Getting information about flat from dto...");
         String address = dto.getAddress();
-        String[] split = address.split(", ");
+        Flat flat = flatService.getFlat(
+                addressSplitter.getCity(address),
+                addressSplitter.getStreet(address),
+                addressSplitter.getHouseNumber(address),
+                addressSplitter.getEntrance(address),
+                addressSplitter.getFlatNumber(address));
 
-        String city = split[0];
-        String street = getValue(split[1]);
-        String houseNumber = getValue(split[2]);
-        Integer entrance =  Integer.valueOf(getValue(split[3]));
-        Integer flatNumber =  Integer.valueOf(getValue(split[4]));
+        log.info("Getting gage installation date from dto...");
+        LocalDate installationDate = dateTransform.toTransform(dto.getInstallationDate());
 
-        Flat flat = flatService.getFlat(city, street, houseNumber, entrance, flatNumber);
-
-
-        InstallationDate installationDateDto = dto.getInstallationDate();
-
-        LocalDate installationDate = LocalDate.of(Integer.valueOf(installationDateDto.getYear()),
-                Integer.valueOf(installationDateDto.getMonth()),
-                Integer.valueOf(installationDateDto.getDay()));
-
-
+        log.info("Creating new gage...");
         Gage newGage = Gage.builder()
                 .serialNumber(dto.getSerialNumber())
                 .typeGage(dto.getTypeGage())
@@ -118,11 +116,26 @@ public class GageService {
                 .flat(flat)
                 .build();
 
-         gageRepository.save(newGage);
+        log.info("Saving new gage...");
+        gageRepository.save(newGage);
+
         return newGage;
     }
-    private String getValue(String arg){
-       return arg.split(" ")[1];
+
+    private String getValue(String arg) {
+        return arg.split(" ")[1];
     }
 
+    public int getCountTypeGage() {
+        log.info("Getting count of type gages...");
+        int size = gageRepository.findAll()
+                .stream()
+                .map(Gage::getTypeGage)
+                .distinct()
+                .collect(Collectors.toList())
+                .size();
+        log.info("Count of type gages: {}", size);
+
+        return size;
+    }
 }

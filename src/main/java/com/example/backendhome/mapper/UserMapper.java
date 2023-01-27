@@ -1,7 +1,8 @@
 package com.example.backendhome.mapper;
 
-import com.example.backendhome.dto.request.UserRequestDto;
 import com.example.backendhome.dto.request.SignupRequest;
+import com.example.backendhome.dto.request.UserRequestDto;
+import com.example.backendhome.dto.response.UserResponseDto;
 import com.example.backendhome.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,5 +19,9 @@ public abstract class  UserMapper {
     public abstract  User toUser(SignupRequest signupRequest);
 
     @Mapping(target = "password", expression = "java(encoder.encode(userDto.getPassword()))")
-    public abstract  User toUser(UserRequestDto userDto);
+    public abstract User toUser(UserRequestDto userDto);
+
+    @Mapping(target = "contractNumber", source = "user.contract.contractNumber")
+    @Mapping(target = "roleName", expression = "java(user.getRoles().stream().findFirst().map(el -> el.getName()).get())")
+    public abstract UserResponseDto toUserResponseDto(User user);
 }

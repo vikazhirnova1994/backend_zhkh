@@ -1,5 +1,6 @@
 package com.example.backendhome.entity;
 
+import com.example.backendhome.entity.enums.ClaimStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,23 +8,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-@Table(name = "contract")
+@Table(name = "claims")
 @Entity
 @Getter
 @Setter
@@ -31,33 +30,35 @@ import java.util.UUID;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Contract {
-
+public class Claim {
     @Id
     @GeneratedValue(generator = "UUID")
     @Column(name = "id")
     private UUID id;
 
-    @NotNull
-    @Column(name = "contract_number", length = 20)
-    private String contractNumber;
-
     @ToString.Exclude
-    @OneToOne(fetch = FetchType.LAZY, orphanRemoval = false)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-            name = "flat_id",
+            name = "user_id",
             referencedColumnName = "id")
-    private Flat flat;
+    private User user;
 
     @NotNull
-    @Column(name = "signed_date")
-    private LocalDate signedDate;
+    @Column(name = "description")
+    private String description;
 
+    @Column(name = "executor_identification_number", length = 10)
+    private String executorIdentificationNumber;
 
-    @Column(name = "termination_date")
-    private LocalDate terminationDate;
+    @NotNull
+    @Column(name = "creation_date")
+    private LocalDate creationDate;
 
-    @ToString.Exclude
-    @OneToMany(mappedBy = "contract",cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<User> user = new ArrayList<>();
+    @Column(name = "completion_date")
+    private LocalDate completionDate;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 30)
+    private ClaimStatus status;
 }

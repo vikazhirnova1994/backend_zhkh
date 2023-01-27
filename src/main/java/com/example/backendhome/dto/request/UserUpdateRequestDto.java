@@ -7,14 +7,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 @Getter
 @Setter
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class InstallationDate {
-    private String day;
-    private String  month;
-    private String year;
+public class UserUpdateRequestDto {
+    @NotNull
+    @Size(min = 3, max = 20)
+    private String username;
+    @Size(min = 8, max = 40)
+    private String password;
 }

@@ -1,8 +1,8 @@
 package com.example.backendhome.service;
 
 
-import com.example.backendhome.dto.response.JwtResponse;
 import com.example.backendhome.dto.request.LoginRequest;
+import com.example.backendhome.dto.response.JwtResponse;
 import com.example.backendhome.entity.RefreshToken;
 import com.example.backendhome.security.jwt.JwtUtils;
 import com.example.backendhome.util.exception.TokenRefreshException;
@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
     private final RefreshTokenService refreshTokenService;
@@ -39,8 +38,6 @@ public class AuthService {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
-
-        //TODO изменить способ сохранения Token-ов на redis
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(userDetails.getId());
 
         return JwtResponse.builder()
@@ -69,5 +66,4 @@ public class AuthService {
                 })
                 .orElseThrow(() -> new TokenRefreshException(refreshToken, "Refresh token is not in database!"));
     }
-
 }

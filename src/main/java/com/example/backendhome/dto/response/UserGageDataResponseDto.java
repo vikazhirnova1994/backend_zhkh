@@ -1,7 +1,6 @@
-package com.example.backendhome.dto.request;
+package com.example.backendhome.dto.response;
 
 import com.example.backendhome.entity.enums.TypeGage;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -17,11 +17,13 @@ import javax.validation.constraints.NotNull;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class GageDataRequestDto {
+public class UserGageDataResponseDto {
     @NotNull
-    @JsonProperty("data")
-    private String data;
-    @JsonProperty("typeGage")
+    private String serialNumber;
     @NotNull
     private TypeGage typeGage;
+    @NotNull
+    private String data;
+    @NotNull
+    private LocalDate departureDate;
 }

@@ -21,10 +21,8 @@ public class UserDetailsImpl implements UserDetails {
     private final UUID id;
     private final String username;
     private final String contractNumber;
-
     @JsonIgnore
     private final String password;
-
     private final  Collection<? extends GrantedAuthority> authorities;
 
     public static UserDetailsImpl build(User user) {

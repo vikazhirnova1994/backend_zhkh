@@ -40,6 +40,15 @@ public interface GageDataRepository extends JpaRepository<GageData, UUID> {
     List<GageData> findGagesDataByUserIdAndGageId(UUID userId, UUID gageId);
 
     @Query(value =
+            """
+            select gd from GageData gd
+           JOIN FETCH gd.user u
+           JOIN FETCH gd.gage g
+           JOIN FETCH g.flat f
+            """)
+    List<GageData> findGagesData();
+
+    @Query(value =
            """
            select * from gages_data
            left join db_users du on du.id = gages_data.user_id
@@ -53,5 +62,25 @@ public interface GageDataRepository extends JpaRepository<GageData, UUID> {
             where du.id = ?1 and g.serial_number like %?2%
             """,
             nativeQuery = true)
-    Page<GageData> findGagesData(UUID userId, String serialNumber, Pageable pageable);
+    Page<GageData> findUserGagesData(UUID userId, String serialNumber, Pageable pageable);
+
+    @Query(value =
+            """
+           select *  from gages_data
+            left join db_users du on du.id = gages_data.user_id
+            left join contract c on c.id = du.contract_id
+            left join flats f on f.id = c.flat_id
+            left join gages g on gages_data.gage_id = g.id
+             where  c.contract_number like %?1% and g.serial_number like %?2%
+            """,
+            countQuery = """
+            select count(*)  from gages_data
+            left join db_users du on du.id = gages_data.user_id
+            left join contract c on c.id = du.contract_id
+            left join flats f on f.id = c.flat_id
+            left join gages g on gages_data.gage_id = g.id
+            where c.contract_number like %?1% and g.serial_number like %?2%
+            """,
+            nativeQuery = true)
+    Page<GageData> findGagesData(String contractNumber, String serialNumber, Pageable of);
 }

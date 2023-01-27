@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -27,6 +28,12 @@ public class GlobalControllerAdvice {
     @ExceptionHandler(UserExistException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ResponseEntity<ErrorMessage> handleUserExistsException(HttpServletRequest req, UserExistException ex) {
+        return logAndGetErrorInfo(req, ex, ErrorType.USER_IS_ALREADY_EXIST);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<ErrorMessage> handleEntityNotFoundException(HttpServletRequest req, EntityNotFoundException ex) {
         return logAndGetErrorInfo(req, ex, ErrorType.USER_IS_ALREADY_EXIST);
     }
 

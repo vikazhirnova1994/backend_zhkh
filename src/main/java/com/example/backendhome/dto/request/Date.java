@@ -7,15 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.constraints.NotNull;
-
 @Getter
 @Setter
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class RefreshTokenRequest {
-    @NotNull
-    private String refreshToken;
+public class Date {
+    private String day;
+    private String  month;
+    private String year;
 }

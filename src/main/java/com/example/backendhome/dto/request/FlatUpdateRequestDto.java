@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
 @Builder
@@ -14,10 +16,15 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FlatUpdateRequestDto {
+    @NotNull
     private String city;
     private String entrance;
+    @NotNull
     private String flatNumber;
+    @NotNull
     private String  houseNumber;
+    @NotNull
     private String id;
+    @NotNull
     private String street;
 }

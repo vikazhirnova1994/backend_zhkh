@@ -16,7 +16,6 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 @Getter
 public class UserDetailsServiceImpl implements UserDetailsService {
-
     private final UserRepository userRepository;
     private final ContractRepository contractRepository;
 

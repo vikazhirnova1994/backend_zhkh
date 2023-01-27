@@ -26,6 +26,6 @@ public class GageRequestWithAddressDto {
     @NotNull
     @Size(max = 20)
     private String manufacturer;
-    private InstallationDate installationDate;
+    private Date installationDate;
     private String address;
 }

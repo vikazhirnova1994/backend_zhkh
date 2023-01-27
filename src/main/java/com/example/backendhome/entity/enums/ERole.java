@@ -1,6 +1,7 @@
 package com.example.backendhome.entity.enums;
 
 public enum ERole {
-    USER,
-    ADMIN
+    ROLE_USER,
+    ROLE_ADMIN,
+    ROLE_DISPATCHER
 }

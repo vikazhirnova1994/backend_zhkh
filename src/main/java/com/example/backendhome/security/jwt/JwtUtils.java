@@ -2,7 +2,6 @@ package com.example.backendhome.security.jwt;
 
 import com.example.backendhome.entity.User;
 import com.example.backendhome.service.UserDetailsImpl;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -13,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -29,18 +27,13 @@ import java.util.Date;
 public class JwtUtils {
     @Value("${app.jwtSecret}")
     private String jwtSecret;
-
     @Value("${app.jwtExpirationMs}")
     private int jwtExpirationMs;
-
     @Value("${app.jwtCookieName}")
     private String jwtCookie;
-
     @Value("${app.jwtRefreshCookieName}")
     private String jwtRefreshCookie;
-
     private static final String BEARER = "Bearer ";
-
 
     public String generateJwtToken(Authentication authentication) {
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
@@ -54,7 +47,6 @@ public class JwtUtils {
         String authHeader = req.getHeader(HttpHeaders.AUTHORIZATION);
         if (authHeader.startsWith(BEARER)) {
             return authHeader.substring(7);
-
         }
         return null;
     }

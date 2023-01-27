@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -17,13 +17,13 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRequestDto {
-    @NotBlank
+    @NotNull
     @Size(min = 3, max = 20)
     private String username;
     @Size(min = 14, max = 14)
     private String contractNumber;
     private String role;
-    @NotBlank
+    @NotNull
     @Size(min = 8, max = 40)
     private String password;
 }

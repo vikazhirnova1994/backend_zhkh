@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class RefreshTokenRequest {
+public class NewUserClaimDto {
     @NotNull
-    private String refreshToken;
+    private String description;
 }

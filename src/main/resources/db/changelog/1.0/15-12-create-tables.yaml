@@ -35,6 +35,9 @@ databaseChangeLog:
                     nullable: false
                   name: signed_date
                   type: DATE
+              - column:
+                  name: termination_date
+                  type: DATE
             tableName: contract
   - changeSet:
       id: 1671127855431-3
@@ -356,5 +359,55 @@ databaseChangeLog:
             baseColumnNames: user_id
             baseTableName: user_roles
             constraintName: fk_userol_on_user
+            referencedColumnNames: id
+            referencedTableName: db_users
+  - changeSet:
+      id: 1671127855431-21
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_claims
+                  name: id
+                  type: UUID
+              - column:
+                  name: user_id
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: description
+                  type: VARCHAR(255)
+              - column:
+                  name: executor_identification_number
+                  type: VARCHAR(10)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: creation_date
+                  type: DATE
+              - column:
+                  name: completion_date
+                  type: DATE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: status
+                  type: VARCHAR(30)
+            tableName: claims
+  - changeSet:
+      id: 1671127855431-22
+      author: vikaz (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: claims
+            constraintName: FK_CLAIMS_ON_USER
             referencedColumnNames: id
             referencedTableName: db_users

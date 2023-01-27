@@ -1,5 +1,6 @@
-package com.example.backendhome.dto.request;
+package com.example.backendhome.dto.response;
 
+import com.example.backendhome.entity.enums.ERole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -7,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,9 +16,9 @@ import javax.validation.constraints.NotNull;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
-    @NotNull
+public class UserResponseDto {
+    private UUID id;
     private String username;
-    @NotNull
-    private String password;
+    private ERole roleName;
+    private String contractNumber;
 }

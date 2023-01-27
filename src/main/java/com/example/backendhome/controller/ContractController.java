@@ -1,11 +1,9 @@
 package com.example.backendhome.controller;
 
-import com.example.backendhome.dto.request.GageRequestWithAddressDto;
+import com.example.backendhome.dto.request.ContractRequestDto;
 import com.example.backendhome.dto.response.HttpResponse;
-import com.example.backendhome.dto.response.TypeGageResponseDto;
-import com.example.backendhome.entity.Gage;
-import com.example.backendhome.mapper.GageMapper;
-import com.example.backendhome.service.GageService;
+import com.example.backendhome.mapper.ContractMapper;
+import com.example.backendhome.service.ContractService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,70 +20,45 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/gage")
-public class GageController {
-    private final GageService gageService;
-    private final GageMapper gageMapper;
-
-    @PreAuthorize("hasRole('USER') or hasRole('DISPATCHER') or hasRole('ADMIN')")
-    @GetMapping("/")
-    public ResponseEntity<List<Gage>> getGages() {
-        return ResponseEntity.ok(gageService.getGages());
-    }
+@RequestMapping("/api/contract")
+public class ContractController {
+    private final ContractService contractService;
+    private final ContractMapper contractMapper;
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("")
-    public ResponseEntity<HttpResponse> getGagesPageable(
+    public ResponseEntity<HttpResponse> getContractsPageable(
             @RequestParam Optional<Integer> page,
             @RequestParam Optional<Integer> size) throws InterruptedException {
 
         return ResponseEntity.ok().body(
                 HttpResponse.builder()
                         .timestamp(LocalDateTime.now().toString())
-                        .data(Map.of("page", gageService.getGagePage(
+                        .data(Map.of("page", contractService.getContractsPage(
                                         page.orElse(0),
                                         size.orElse(5))
-                                .map(gageMapper::toGageResponseDto)))
+                                .map(contractMapper::toContractResponseDto)))
                         .message("")
                         .status(HttpStatus.OK)
                         .statusCode(HttpStatus.OK.value())
                         .build());
     }
-
-    @PreAuthorize("hasRole('USER')")
-    @GetMapping("/user-gages")
-    public ResponseEntity<List<Gage>> getUserGages() {
-        return ResponseEntity.ok(gageService.getUserGages());
-    }
-
-    @PreAuthorize("hasRole('USER') or hasRole('DISPATCHER') or hasRole('ADMIN')")
-    @GetMapping("/type-gages")
-    public ResponseEntity<List<TypeGageResponseDto>> getTypeGages() {
-        return ResponseEntity.ok(
-                gageService.getTypeGages().stream()
-                        .map(gageMapper::toTypeGageResponseDto)
-                        .collect(Collectors.toList()));
-    }
-
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/new")
-    public ResponseEntity<Gage> createGage(@Valid @RequestBody GageRequestWithAddressDto dto) {
-        return ResponseEntity.ok(gageService.createCage(dto));
+    public void createContract(@Valid @RequestBody ContractRequestDto contractRequestDto) {
+        contractService.createContract(contractRequestDto);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")
-    public void deleteFlat(@PathVariable("id") String id) {
-        gageService.deleteGage(UUID.fromString(id));
+    public void deleteContract(@PathVariable("id") String id) {
+        contractService.deleteContract(UUID.fromString(id));
     }
 }

@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class RegisterService {
-
   private final UserService userService;
   private final ContractService contractService;
   private final RoleCreater roleCreater;
@@ -24,9 +23,7 @@ public class RegisterService {
     if (userService.isExistUser(newUser.getUsername())) {
       throw new UserExistException("Error: Username is exist");
     }
-
     Contract contract = contractService.findContract(contractNumber);
-
     newUser.setRoles(roleCreater.getRole(contractNumber));
     newUser.setContract(contract);
     userService.save(newUser);

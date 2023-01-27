@@ -12,10 +12,9 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class RoleCreater {
-
     private final RoleService roleService;
     private final static String CONTRACT_FOR_ADMIN = "00000000000000";
-    private final static String CONTRACT_FOR_DISPATCHER = "20000000000000";
+    private final static String CONTRACT_FOR_DISPATCHER = "10000000000000";
 
     @Transactional
     public Set<Role> getRole(String contractNumber) {
@@ -27,9 +26,9 @@ public class RoleCreater {
 
     private ERole checkContractNumber(String contractNumber){
         if (contractNumber.equals(CONTRACT_FOR_ADMIN))
-            return ERole.ADMIN;
+            return ERole.ROLE_ADMIN;
         if (contractNumber.equals(CONTRACT_FOR_DISPATCHER))
-            return ERole.ADMIN;
-        return ERole.USER;
+            return ERole.ROLE_DISPATCHER;
+        return ERole.ROLE_USER;
     }
 }
