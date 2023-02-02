@@ -15,51 +15,48 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query(value = """
-            SELECT u FROM User u
-            JOIN FETCH u.contract c
-            JOIN FETCH c.flat f
+            select u from User u
+            join fetch u.contract c
+            join fetch c.flat f
             where u.id = :id
             """)
     Optional<User> findById(UUID id);
 
     @Query(value = """
-            SELECT u FROM User u
-            JOIN FETCH u.contract c
+            select u from User u
+            join fetch u.contract c
             """)
     List<User> findAllUsers();
 
     @Query(value = """
-            SELECT u FROM User u
-            JOIN FETCH u.contract c
-            JOIN FETCH c.flat f
+            select u from User u
+            join fetch u.contract c
+            join fetch c.flat f
             where u.username = :username
             """)
     Optional<User> findByUsername(String username);
 
     Boolean existsByUsername(String username);
 
-    @Query(value =
-            """
+    @Query(value = """
             select * from db_users
             left join contract c on c.id = db_users.contract_id
             left join user_roles ur on ur.user_id = db_users.id
             left join db_roles dr on dr.id = ur.role_id
             where db_users.id != ?1
-            """,
-            countQuery = """
+            """, countQuery = """
             select count(*)  from db_users
             left join contract c on c.id = db_users.contract_id
             left join user_roles ur on ur.user_id = db_users.id
             left join db_roles dr on dr.id = ur.role_id
             where db_users.id != ?1
-            """,
-            nativeQuery = true)
+            """, nativeQuery = true)
     Page<User> findUsers(UUID id, Pageable of);
 
     @Query(value = """
-            SELECT u FROM User u
-            JOIN FETCH u.contract c
-            JOIN FETCH c.flat f
+            select u from User u
+            join fetch u.contract c
+            join fetch c.flat f
             """)
     Optional<User> findUserFlat(UUID id);
 }

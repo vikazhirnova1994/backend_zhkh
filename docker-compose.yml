@@ -1,19 +1,22 @@
 version: '3'
 services:
   ### Postgres Database ###
+  ### Postgres Database ###
   postgres:
-    image: 'postgres:15.0'
+    image: postgres:15.0
     ports:
-      - "5433:5432"
+      - 5433:5432
     environment:
       POSTGRES_PASSWORD: 2104V
       POSTGRES_USER: postgres
       POSTGRES_DB: backend
+      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./postgres-data:/var/lib/postgresql/data
 
   api:
+    image: zhkh_api:latest
     build:
       dockerfile: Dockerfile
       context: ./
@@ -24,4 +27,23 @@ services:
       DATABASE_USER: postgres
       DATABASE_PASSWORD: 2104V
     ports:
-      - "8005:8005"
+      - 8005:8005
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus:/prometheus
+
+  grafana:
+    image: grafana/grafana
+    build: './config/grafana'
+    volumes:
+      - ./grafana:/var/lib/grafana
+    ports:
+      - 3000:3000
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin

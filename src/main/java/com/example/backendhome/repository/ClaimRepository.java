@@ -12,63 +12,52 @@ import java.util.UUID;
 
 @Repository
 public interface ClaimRepository extends JpaRepository<Claim, UUID> {
-    @Query(value =
-            """
+    @Query(value = """
             select * from claims
             left join db_users du on du.id = claims.user_id
             where du.id = ?1
-            """,
-            countQuery = """
+            """, countQuery = """
             select count(*)  from claims
             left join db_users du on du.id = claims.user_id
             where du.id = ?1
-            """,
-            nativeQuery = true)
+            """, nativeQuery = true)
     Page<Claim> findUserClaims(UUID userId, Pageable pageable);
 
-    @Query(value =
-            """
+    @Query(value = """
             select * from claims
             left join db_users du on du.id = claims.user_id
             left join contract c on c.id = du.contract_id
             left join flats f on f.id = c.flat_id
-                        where claims.status like %?1%
-
-            """,
-            countQuery = """
+            where claims.status like %?1%
+            """, countQuery = """
             select count(*)  from claims
             left join db_users du on du.id = claims.user_id
             left join contract c on c.id = du.contract_id
             left join flats f on f.id = c.flat_id
             where claims.status like %?1%
-            """,
-            nativeQuery = true)
+            """, nativeQuery = true)
     Page<Claim> findClaims(String status, Pageable pageable);
 
-    @Query(value =
-            """
+    @Query(value = """
             select cs from Claim cs
-           JOIN FETCH cs.user u
-           JOIN FETCH u.contract c
-           JOIN FETCH c.flat f
-            """)
+            join fetch cs.user u
+            join fetch u.contract c
+            join fetch c.flat f
+             """)
     List<Claim> findClaims();
 
-    @Query(value =
-            """
+    @Query(value = """
             select * from claims
             left join db_users du on du.id = claims.user_id
             left join contract c on c.id = du.contract_id
             left join flats f on f.id = c.flat_id
             where f.id = ?1
-            """,
-            countQuery = """
+            """, countQuery = """
             select count(*)  from claims
             left join db_users du on du.id = claims.user_id
             left join contract c on c.id = du.contract_id
             left join flats f on f.id = c.flat_id
             where f.id = ?1
-            """,
-            nativeQuery = true)
+             """, nativeQuery = true)
     Page<Claim> findUserClaimsByFlatId(UUID flatId, Pageable of);
 }

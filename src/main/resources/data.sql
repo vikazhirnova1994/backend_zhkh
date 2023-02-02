@@ -39,3 +39,6 @@ VALUES ('c6346318-7cc8-11ed-a1eb-0242ac120001', '5f8c8fb4-503a-4727-a47a-19d539f
        ('c6346318-7cc8-11ed-a1eb-0242ac120003', '5f8c8fb4-503a-4727-a47a-19d539fa6572', '29b59ddb-df71-4955-9af9-12aaa4dd8653', '250', '2023-01-23'),
        ('c6346318-7cc8-11ed-a1eb-0242ac120004', '5f8c8fb4-503a-4727-a47a-19d539fa6573', '29b59ddb-df71-4955-9af9-12aaa4dd8653', '100', '2023-01-23'),
        ('c6346318-7cc8-11ed-a1eb-0242ac120005', '5f8c8fb4-503a-4727-a47a-19d539fa6573', '29b59ddb-df71-4955-9af9-12aaa4dd8653', '450', '2023-01-23');
+
+INSERT INTO claims(id, user_id, description, creation_date, status)
+VALUES ('e5486bb2-a26d-11ed-a8fc-0242ac120001', '29b59ddb-df71-4955-9af9-12aaa4dd8653', 'не работатет лифт', '2023-01-23', 'ACTIVE'),

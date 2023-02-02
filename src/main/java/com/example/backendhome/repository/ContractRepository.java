@@ -14,8 +14,8 @@ import java.util.UUID;
 public interface ContractRepository  extends JpaRepository<Contract, UUID> {
 
     @Query(value = """
-            SELECT c FROM Contract c
-            JOIN FETCH c.flat f
+            select c from Contract c
+            join fetch c.flat f
             where c.contractNumber = :contractNumber
             """)
     Optional<Contract>  findContractWithFlat(String contractNumber);
@@ -24,13 +24,11 @@ public interface ContractRepository  extends JpaRepository<Contract, UUID> {
             select * from contract
             left join flats f on f.id = contract.flat_id
             where contract.termination_date is null
-            """,
-            countQuery = """
+            """, countQuery = """
             select count(*)  from contract
             left join flats f on f.id = contract.flat_id
             where contract.termination_date is null
-            """,
-            nativeQuery = true)
+            """, nativeQuery = true)
     Page<Contract> findContract(Pageable pageable);
 
     Optional<Contract> findContractByContractNumber(String contractNumber);

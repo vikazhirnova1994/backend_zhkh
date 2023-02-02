@@ -52,7 +52,7 @@ public class GageDataController {
 
     @PreAuthorize("hasRole('DISPATCHER')")
     @GetMapping("")
-    public ResponseEntity<HttpResponse> getClaimsPageable(
+    public ResponseEntity<HttpResponse> getGagesDataPageable(
             @RequestParam Optional<String> contractNumber,
             @RequestParam Optional<String> serialNumber,
             @RequestParam Optional<Integer> page,
@@ -143,7 +143,7 @@ public class GageDataController {
     @PreAuthorize("hasRole('DISPATCHER')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public String deleteFlat(@PathVariable UUID id) {
+    public String deleteGageData(@PathVariable UUID id) {
         gageDataService.deleteGageData(id);
         return "Successfully deleted";
     }

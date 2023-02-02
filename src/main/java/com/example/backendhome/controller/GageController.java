@@ -85,7 +85,7 @@ public class GageController {
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")
-    public void deleteFlat(@PathVariable("id") String id) {
+    public void deleteGage(@PathVariable("id") String id) {
         gageService.deleteGage(UUID.fromString(id));
     }
 }

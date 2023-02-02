@@ -90,7 +90,7 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @PutMapping("/{id}/edit")
-    public ResponseEntity<UserResponseDto> updateFlat(@PathVariable("id") String id,
+    public ResponseEntity<UserResponseDto> updateUser(@PathVariable("id") String id,
                                                       @Valid @RequestBody UserUpdateRequestDto userDto) {
         return ResponseEntity.ok(
                 userMapper.toUserResponseDto(
@@ -100,7 +100,7 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/{id}")
-    public void deleteFlat(@PathVariable("id") String id){
+    public void deleteUser(@PathVariable("id") String id){
         userService.deleteUser(UUID.fromString(id));
     }
 }

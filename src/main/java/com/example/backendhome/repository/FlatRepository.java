@@ -14,11 +14,9 @@ import java.util.UUID;
 public interface FlatRepository extends JpaRepository<Flat, UUID> {
     @Query(value = """
             select * from flats
-            """,
-            countQuery = """
+            """, countQuery = """
             select count(*)  from flats
-            """,
-            nativeQuery = true)
+            """, nativeQuery = true)
     Page<Flat> findFlat(Pageable pageable);
 
     Optional<Flat> findByCityAndStreetAndHouseNumberAndEntranceAndFlatNumber(String city, String street, String houseNumber, Integer entrance, Integer flatNumber);
